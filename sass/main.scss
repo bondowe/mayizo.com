@@ -1,0 +1,41 @@
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 40px !important;
+}
+
+.jumbotron {
+    margin: 0px;
+}
+
+.head-line-media {
+    float: left; 
+    margin-right: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 580px;
+    height: 335px;
+    background-color: #ccc;
+    overflow: hidden;
+    box-shadow: 5px 5px 2px #888888;
+    @include border-radius(10px);
+}
+
+.head-line-content {
+    min-width: 350px;
+    overflow: hidden;
+}
+
