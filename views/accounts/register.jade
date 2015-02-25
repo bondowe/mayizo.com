@@ -1,0 +1,67 @@
+extends ../layout
+
+block content
+     
+    div(class='container center-block main-form') 
+
+        form(method="post" action="/accounts/register" enctype="application/x-www-form-urlencoded")
+            
+            h1 Inscription
+            
+            
+            div(class="row form-row")
+            
+                div(class="col-xs-6")
+                    label(for="name_first") Prénom
+                    input(type="text" class="form-control" name="name.first" id="name_first" required placeholder="Votre prénom")
+              
+                div(class="col-xs-6")
+                    label(for="name_last") Nom
+                    input(type="text" class="form-control" name="name.last" id="name_last" required placeholder="Votre nom de famille")
+                    
+            div(class="row form-row")
+            
+                div(class="col-xs-6")
+                    label(for="dateOfBirth") Date de naissance
+                    input(type="date" class="form-control" name="dateOfBirth" id="dateOfBirth" required placeholder="Votre date de naissance")
+            
+                div(class="col-xs-6")
+                    label(for="gender") Sexe
+                    div
+                        label(class="radio-inline")
+                            input(type="radio" name="gender" id="gender_female" value="F") 
+                            | Femme
+                        label(class="radio-inline")
+                            input(type="radio" name="gender" id="gender_male" value="M")
+                            | Homme
+                        label(class="radio-inline")
+                            input(type="radio" name="gender" id="gender_other" value="O")
+                            | Autre
+                            
+            div(class="form-group")
+                label(for="email") Adresse email
+                input(type="email" class="form-control" name="email" id="email" required placeholder="Votre adresse email")
+                
+            div(class="form-group")
+                label(for="username") Nom d'utilisateur
+                input(type="text" class="form-control" name="username" id="username" required placeholder="Votre nom d'utilisateur")
+                
+            div(class="row form-row")
+            
+                div(class="col-xs-6")
+                    label(for="password") Mot de passe
+                    input(type="password" class="form-control" name="password" id="password" required placeholder="Votre mot de passe")
+                
+                div(class="col-xs-6")
+                    label(for="passwordConfirmation") Confirmez votre mot de passe
+                    input(type="password" class="form-control" name="passwordConfirmation" id="passwordConfirmation" required placeholder="Confirmez votre mot de passe")
+                    
+            div
+                != captcha
+
+            button(type="submit" class="btn btn-default btn-lg active") Créer un compte
+            
+            p(class="help-block") Avez-vous déjà un compte? 
+                a(href="/accounts/login") Connectez-vous
+
+                

@@ -17,7 +17,7 @@ var articleSchema = new Schema({
     displayUntil: Date,
     createdDate: { type: Date, default: Date.now },
     lastEditedDate: Date,
-    author: { type: mongoose.Schema.Types.ObjectId, required: true }, // refers to user._id
+    authors: [{ type: mongoose.Schema.Types.ObjectId, required: true }], // refers to user._id
     lastEditor: mongoose.Schema.Types.ObjectId,
     likes: {
         up: { type: Number, default: 0 },
