@@ -6,6 +6,14 @@
           border-radius: $radius;
 }
 
+@mixin linear-gradient($background-color, $args...) {
+    background-color: $background-color;
+    background-image: -webkit-linear-gradient($args);
+    background-image: -moz-linear-gradient($args);
+    background-image: -o-linear-gradient($args);
+    background-image: linear-gradient($args);   
+}
+
 html , body {
     height: 100%;
     marigin: 0;
@@ -17,13 +25,25 @@ body {
 }
 
 h1 {
-    margin: 0;
+    margin-top: 0;
     padding: 0;
-    font-size: 40px !important;
+    font-size: 2em !important;
     
     form & {
         margin-bottom: 20px;   
     }
+    
+    &.article-title {
+        margin-top: 20px;   
+    }
+}
+
+h2 {
+    font-size: 1.50em !important;
+}
+
+h3 {
+    font-size: 1em !important;
 }
 
 /* Wrapper for page content to push down footer */
@@ -45,24 +65,51 @@ h1 {
 
 .jumbotron {
     margin: 0px;
+    padding: 15px;
+    color: #fff;
+    background-color: #423D3D;
+    
+    p {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
 }
 
-.head-line-media {
+.navbar-inverse {
+    // @include linear-gradient(#78836E, top, #78836E 0, #222 100%);
+}
+
+.headline-media {
     float: left; 
     margin-right: 20px;
-    margin-bottom: 20px;
-    padding: 10px;
-    width: 580px;
-    height: 335px;
-    background-color: #ccc;
+    width: 470px;
+    height: 350px;
     overflow: hidden;
-    box-shadow: 5px 5px 2px #888888;
-    @include border-radius(10px);
 }
 
-.head-line-content {
+.headline-content {
     min-width: 350px;
     overflow: hidden;
+}
+
+.article-media {
+    float: left; 
+    margin-right: 20px;
+    overflow: hidden;
+}
+
+.article-content {
+    
+}
+
+.article-aside {
+    float: right;
+    height: 500px;
+    width: 250px;
+    padding: 15px;
+    color: #606060;
+    background-color: #CCCCCC;
+    @include border-radius(10px);
 }
 
 .main-form {

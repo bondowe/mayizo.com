@@ -1,8 +1,9 @@
+var config = require('../config');
 var express = require('express');
 var router = express.Router();
 
 var sweetcaptcha = new require('sweetcaptcha');
-var captcha = sweetcaptcha('234529', '643a878cf5b88824fc1178c09377ce0d', '3eb08d9f8471847737b6c046c036e1a6');
+var captcha = sweetcaptcha(config.appId, config.appKey, config.appSecret);
 
 /* GET login page. */
 router.get('/login', function(req, res, next) {
