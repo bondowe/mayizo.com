@@ -3,6 +3,13 @@ var merge = require('merge');
 
 var config = {
     
+    db: {
+        options: {
+            db: { native_parser: true },
+            server: { poolSize: 5 }
+        }
+    },
+    
     sweetcaptcha: {
         appId: '234529',
         appKey: '643a878cf5b88824fc1178c09377ce0d',
