@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+     
+    div(class='container center-block main-form small-form') 
+
+        form(method="post" action="/account/login" enctype="application/x-www-form-urlencoded")
+            
+            h1 Connexion
+            
+            div(class="form-group")
+                label(for="accountEmail") Adresse email
+                input(type="email" class="form-control" name="account[email]" id="accountEmail" required placeholder="Votre adresse email")
+                
+            div(class="form-group")
+                label(for="accountPassword") Mot de passe
+                input(type="password" class="form-control" name="account[password]" id="accountPassword" required placeholder="Votre mot de passe")
+
+            button(type="submit" class="btn btn-default") Connexion
+            
+            p(class="help-block") Vous n'avez pas de compte? 
+                a(href="/account/register") Enregistrez-vous
+
+                

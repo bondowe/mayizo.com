@@ -14,9 +14,16 @@
     background-image: linear-gradient($args);   
 }
 
-html , body {
+$jumbotron-background-color: #0D1116;
+$darkened-jumbotron-background-color: darken($jumbotron-background-color, 40%);
+$lightened-jumbotron-background-color: lighten($jumbotron-background-color, 40%);
+
+$jombotron-color: lighten(#606060, 40%);
+
+html, body {
+    font-family: 'Open Sans', Helvetica, sans-serif;
     height: 100%;
-    marigin: 0;
+    margin: 0;
 }
 
 body {
@@ -33,7 +40,7 @@ h1 {
         margin-bottom: 20px;   
     }
     
-    &.article-title {
+    &.page-heading {
         margin-top: 20px;   
     }
 }
@@ -46,18 +53,35 @@ h3 {
     font-size: 1em !important;
 }
 
+a, a:hover, a:active, a:visited {
+    color: $jumbotron-background-color;
+}
+
+.font-italic {
+    font-style: italic;   
+}
+
+.navbar-brand {
+    font-family: 'Pacifico';
+    font-size: 50px;
+    -moz-transform: rotate(-14deg);
+    -ms-transform: rotate(-14deg); /* IE 9 */
+    -webkit-transform: rotate(-14deg); /* Chrome, Safari, Opera */
+    transform: rotate(-14deg);
+}
+
 /* Wrapper for page content to push down footer */
 .body-wrap {
     min-height: 100%;
     height: auto;
     /* Negative indent footer by its height */
-    margin: 0 auto -80px;
+    margin: 0 auto -55px;
     /* Pad bottom by footer height */
     padding: 0 0 60px;
 }
 
 .footer {
-    height: 40px;
+    height: 20px;
     p {
         margin-left: 20px;
     }
@@ -66,17 +90,22 @@ h3 {
 .jumbotron {
     margin: 0px;
     padding: 15px;
-    color: #fff;
-    background-color: #423D3D;
+    color: $jombotron-color;
+    @include linear-gradient($jumbotron-background-color, top, $jumbotron-background-color 98%, #fff 100%);
     
     p {
-        font-size: 18px;
+        font-size: 16px;
         margin-bottom: 10px;
     }
 }
 
 .navbar-inverse {
-    // @include linear-gradient(#78836E, top, #78836E 0, #222 100%);
+    @include linear-gradient($jumbotron-background-color, top, $darkened-jumbotron-background-color 0, $jumbotron-background-color 50%, $darkened-jumbotron-background-color 100%);
+}
+
+#disqus_thread {
+    margin-top: 40px;
+    width: 850px;   
 }
 
 .headline-media {
@@ -90,11 +119,21 @@ h3 {
 .headline-content {
     min-width: 350px;
     overflow: hidden;
+    color: $jombotron-color;
+    
+    a {
+        color: $jombotron-color;
+    }
+}
+
+.article-index-item {
+    margin-bottom: 10px;   
 }
 
 .article-media {
     float: left; 
     margin-right: 20px;
+    margin-bottom: 20px;
     overflow: hidden;
 }
 
@@ -104,17 +143,37 @@ h3 {
 
 .article-aside {
     float: right;
-    height: 500px;
     width: 250px;
+    margin: 10px;
     padding: 15px;
-    color: #606060;
-    background-color: #CCCCCC;
+    color: $jombotron-color;
+    background-color: $jumbotron-background-color;
     @include border-radius(10px);
+    
+    h3:not(:first-child) {
+        border-top: 1px solid; 
+        padding-top: 20px;
+    }
+    
+    a {
+        color: $jombotron-color;
+        
+        img {
+            width: 220px;   
+        }
+    }
 }
 
 .main-form {
-    width: 500px; 
     margin-top: 30px;   
+}
+
+.small-form {
+    width: 500px; 
+}
+
+.large-form {
+    width: 915px; 
 }
 
 .form-row {

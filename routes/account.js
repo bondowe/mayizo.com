@@ -6,8 +6,8 @@ var sweetcaptcha = new require('sweetcaptcha');
 var captcha = sweetcaptcha(config.appId, config.appKey, config.appSecret);
 
 /* GET login page. */
-router.get('/login', function(req, res, next) {
-  res.render('accounts/login', { pageTitle: 'Connexion' });
+router.get('/login', function(req, res) {
+  res.render('account/login', { pageTitle: 'Connexion' });
 });
 
 /* login page. */
@@ -16,7 +16,7 @@ router.route('/register')
             //get sweetcaptcha html
             captcha.api('get_html', function(err, html){
                 //Send the guts of the captcha to your template
-                res.render('accounts/register', { pageTitle: 'Inscription', captcha: html });
+                res.render('account/register', { pageTitle: 'Inscription', captcha: html });
             });
       })
       .post(function(req, res) {

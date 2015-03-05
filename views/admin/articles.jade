@@ -1,0 +1,35 @@
+extends ../layout
+
+block content
+
+    div(class='container') 
+        h1(class='page-heading') Articles
+        hr
+        table(id='articlesTable')
+            thead
+                th Date
+                th Titre
+                th Approuvé par
+                th Auteur(s)
+            tbody
+                each article in articles
+                    tr
+                        td= article.createdDate.toFormat('DD MM YYYY HH24:MI:SS')
+                        td= article.title
+                        td= article.reviewedBy
+                        td= article.authors
+            tfoot
+            
+        a(class='btn btn-default' href='/admin/new-article') 
+            span(class='glyphicon glyphicon-plus')  
+            span Ajouter un article
+            
+block append moreStylesheets
+    link(href='/vendor/datatables/media/css/jquery.dataTables.min.css', rel='stylesheet')
+
+block append moreScripts
+    script(src='/vendor/datatables/media/js/jquery.dataTables.min.js')
+    script(src='/javascripts/articles-module.js')
+
+        
+            

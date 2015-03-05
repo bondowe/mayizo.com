@@ -7,9 +7,12 @@ html(lang='fr')
         meta(name='description', content='')  
         meta(name='author', content='')
         link(rel='icon', href='../../favicon.ico')   
+        link(rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Rosario:normal,italic,bold,bolditalic")
+        link(rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Pacifico:normal,bold&text=MAYIZOmayizo")
         link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css')
         link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css')
         link(href='/stylesheets/main.css', rel='stylesheet')
+        block moreStylesheets
         // HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
         <!--[if lt IE 9]>
         script(src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js')
@@ -27,18 +30,23 @@ html(lang='fr')
                             span(class='icon-bar')
                             span(class='icon-bar')
                         a(class='navbar-brand' href='/') Mayizo
+                    ul(class="nav navbar-nav navbar-right")
+                        li
+                            a(href="#") Feedback
+                        li
+                            a(href="#") Contact
 
             block content
-
-            block footerScript
-                script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
-                script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
-                // IE10 viewport hack for Surface/desktop Windows 8 bug
-                script(src='../../assets/js/ie10-viewport-bug-workaround.js')
 
         footer 
             div(class="footer")
                 hr
                 block footer
                     p &copy; Company 2014
+                    
+    block moreScripts
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
+        script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
+        // IE10 viewport hack for Surface/desktop Windows 8 bug
+        // script(src='../../assets/js/ie10-viewport-bug-workaround.js')
                     
