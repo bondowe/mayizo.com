@@ -19,7 +19,10 @@ var admin = require('./routes/admin');
 mongoose.connect(config.db.uri, config.db.options);
 
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', function () {
+  util.log('Mongo database connection error:');
+  JSON.stringify(config.db);
+});
 db.once('open', function (callback) {
   util.log('Mongo database connection opened.');
 });
