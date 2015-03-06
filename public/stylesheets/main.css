@@ -30,13 +30,14 @@ a, a:hover, a:active, a:visited {
 
 .navbar-brand {
   font-family: 'Pacifico';
-  font-size: 50px;
-  -moz-transform: rotate(-14deg);
-  -ms-transform: rotate(-14deg);
-  /* IE 9 */
-  -webkit-transform: rotate(-14deg);
-  /* Chrome, Safari, Opera */
-  transform: rotate(-14deg); }
+  font-size: 28px;
+  display: block;
+  background-color: blue;
+  background-image: -webkit-linear-gradient(top, darkblue 0, lightblue 50%, darkblue 100%);
+  background-image: -moz-linear-gradient(top, darkblue 0, lightblue 50%, darkblue 100%);
+  background-image: -o-linear-gradient(top, darkblue 0, lightblue 50%, darkblue 100%);
+  background-image: linear-gradient(top, darkblue 0, lightblue 50%, darkblue 100%);
+  color: #0D1116 !important; }
 
 /* Wrapper for page content to push down footer */
 .body-wrap {
