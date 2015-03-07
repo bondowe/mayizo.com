@@ -23,7 +23,7 @@ h3 {
   font-size: 1em !important; }
 
 a, a:hover, a:active, a:visited {
-  color: #0D1116; }
+  color: #333333; }
 
 .font-italic {
   font-style: italic; }
@@ -31,13 +31,9 @@ a, a:hover, a:active, a:visited {
 .navbar-brand {
   font-family: 'Pacifico';
   font-size: 28px;
+  font-weight: bold;
   display: block;
-  background-color: blue;
-  background-image: -webkit-linear-gradient(top, darkblue 0, lightblue 50%, darkblue 100%);
-  background-image: -moz-linear-gradient(top, darkblue 0, lightblue 50%, darkblue 100%);
-  background-image: -o-linear-gradient(top, darkblue 0, lightblue 50%, darkblue 100%);
-  background-image: linear-gradient(top, darkblue 0, lightblue 50%, darkblue 100%);
-  color: #0D1116 !important; }
+  color: white !important; }
 
 /* Wrapper for page content to push down footer */
 .body-wrap {
@@ -57,21 +53,13 @@ a, a:hover, a:active, a:visited {
   margin: 0px;
   padding: 15px;
   color: #c6c6c6;
-  background-color: #0D1116;
-  background-image: -webkit-linear-gradient(top, #0D1116 98%, #fff 100%);
-  background-image: -moz-linear-gradient(top, #0D1116 98%, #fff 100%);
-  background-image: -o-linear-gradient(top, #0D1116 98%, #fff 100%);
-  background-image: linear-gradient(top, #0D1116 98%, #fff 100%); }
+  background-color: #333333; }
   .jumbotron p {
     font-size: 16px;
     margin-bottom: 10px; }
 
 .navbar-inverse {
-  background-color: #0D1116;
-  background-image: -webkit-linear-gradient(top, #000000 0, #0D1116 50%, #000000 100%);
-  background-image: -moz-linear-gradient(top, #000000 0, #0D1116 50%, #000000 100%);
-  background-image: -o-linear-gradient(top, #000000 0, #0D1116 50%, #000000 100%);
-  background-image: linear-gradient(top, #000000 0, #0D1116 50%, #000000 100%); }
+  background-color: #333333; }
 
 #disqus_thread {
   margin-top: 40px;
@@ -92,7 +80,9 @@ a, a:hover, a:active, a:visited {
     color: #c6c6c6; }
 
 .article-index-item {
-  margin-bottom: 10px; }
+  padding-top: 10px; }
+  .article-index-item h2 {
+    clear: both; }
 
 .article-media {
   float: left;
@@ -106,7 +96,7 @@ a, a:hover, a:active, a:visited {
   margin: 10px;
   padding: 15px;
   color: #c6c6c6;
-  background-color: #0D1116;
+  background-color: #333333;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
