@@ -17,7 +17,7 @@ var userSchema = new Schema({
     emailAddress: { type: String, required: true, unique: true, lowercase: true },
     password: { type: String, required: true },
     passwordSalt: { type: String, required: true },
-    warningCount: { type: Number, required: true },
+    warningCount: Number,
     bannedFrom: Date,
     bannedUtil: Date,
     banReason: String,

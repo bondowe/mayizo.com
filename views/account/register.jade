@@ -11,49 +11,49 @@ block content
             div(class="row form-row")
             
                 div(class="col-xs-6")
-                    label(for="accountNameFirst") Prénom
-                    input(type="text" class="form-control" name="account[name][first]" id="accountNameFirst" required placeholder="Votre prénom")
+                    label(for="userNameFirst") Prénom
+                    input(type="text" class="form-control" name="user[name][first]" id="userNameFirst" required placeholder="Votre prénom")
               
                 div(class="col-xs-6")
-                    label(for="accountNameLast") Nom
-                    input(type="text" class="form-control" name="account[name][last]" id="accountNameLast" required placeholder="Votre nom de famille")
+                    label(for="userNameLast") Nom
+                    input(type="text" class="form-control" name="user[name][last]" id="userNameLast" required placeholder="Votre nom de famille")
                     
             div(class="row form-row")
             
                 div(class="col-xs-6")
-                    label(for="accountDateOfBirth") Date de naissance
-                    input(type="date" class="form-control" name="account[dateOfBirth]" id="accountDateOfBirth" required placeholder="Votre date de naissance")
+                    label(for="userDateOfBirth") Date de naissance
+                    input(type="date" class="form-control" name="user[dateOfBirth]" id="userDateOfBirth" required placeholder="Votre date de naissance")
             
                 div(class="col-xs-6")
-                    label(for="accountGenderFemale") Sexe
+                    label(for="userGenderFemale") Sexe
                     div
                         label(class="radio-inline")
-                            input(type="radio" name="account[gender]" id="accountGenderFemale" value="F") 
+                            input(type="radio" name="user[gender]" id="userGenderFemale" value="F") 
                             | Femme
                         label(class="radio-inline")
-                            input(type="radio" name="account[gender]" id="accountGenderMale" value="M")
+                            input(type="radio" name="user[gender]" id="userGenderMale" value="M")
                             | Homme
                         label(class="radio-inline")
-                            input(type="radio" name="account[gender]" id="accountGenderOther" value="O")
+                            input(type="radio" name="user[gender]" id="userGenderOther" value="O")
                             | Autre
                             
             div(class="form-group")
-                label(for="accountEmail") Adresse email
-                input(type="email" class="form-control" name="account[email]" id="accountEmail" required placeholder="Votre adresse email")
+                label(for="userEmail") Adresse email
+                input(type="email" class="form-control" name="user[email]" id="userEmail" required placeholder="Votre adresse email")
                 
             div(class="form-group")
-                label(for="accountUsername") Nom d'utilisateur
-                input(type="text" class="form-control" name="account[username]" id="accountUsername" required placeholder="Votre nom d'utilisateur")
+                label(for="userUsername") Nom d'utilisateur
+                input(type="text" class="form-control" name="user[username]" id="userUsername" required placeholder="Votre nom d'utilisateur")
                 
             div(class="row form-row")
             
                 div(class="col-xs-6")
-                    label(for="accountPassword") Mot de passe
-                    input(type="password" class="form-control" name="account[password]" id="accountPassword" required placeholder="Votre mot de passe")
+                    label(for="userPassword") Mot de passe
+                    input(type="password" class="form-control" name="user[password]" id="userPassword" required placeholder="Votre mot de passe")
                 
                 div(class="col-xs-6")
-                    label(for="accountPasswordConfirmation") Confirmez votre mot de passe
-                    input(type="password" class="form-control" name="account[passwordConfirmation]" id="accountPasswordConfirmation" required placeholder="Confirmez votre mot de passe")
+                    label(for="userPasswordConfirmation") Confirmez votre mot de passe
+                    input(type="password" class="form-control" name="user[passwordConfirmation]" id="userPasswordConfirmation" required placeholder="Confirmez votre mot de passe")
                     
             div
                 != captcha
