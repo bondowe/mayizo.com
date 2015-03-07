@@ -10,7 +10,7 @@ var config = require('./config');
 var mongoose = require('mongoose');
 var dateUtils = require('date-utils');
 
-var log = util.debuglog('dev');
+var debuglog = util.debuglog('development');
 
 var routes = require('./routes/index');
 var account = require('./routes/account');
@@ -19,6 +19,7 @@ var admin = require('./routes/admin');
 mongoose.connect(config.db.uri, config.db.options);
 
 var db = mongoose.connection;
+
 db.on('error', function () {
   util.log('Mongo database connection error:');
   JSON.stringify(config.db);
