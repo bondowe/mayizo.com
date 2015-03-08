@@ -1,62 +1,99 @@
 var config = require('../config');
+var security = require('../util/security');
+var crypto = require('crypto');
 var util = require('util');
 var express = require('express');
 var router = express.Router();
 
 var sweetcaptcha = new require('sweetcaptcha');
-var captcha = sweetcaptcha(config.appId, config.appKey, config.appSecret);
+var captcha = sweetcaptcha(config.sweetcaptcha.appId, config.sweetcaptcha.appKey, config.sweetcaptcha.appSecret);
 
 var User = require('../models/user');
 
-/* GET login page. */
-router.get('/login', function(req, res) {
-  res.render('account/login', { pageTitle: 'Connexion' });
-});
-
 /* login page. */
+router.route('/login')
+      .get(function (req, res) {
+            res.render('account/login', { pageTitle: 'Connexion' });
+      })
+      .post(function (req, res) {
+            var usr = req.body.user;
+            var renderView = function (errMsg) {
+                errMsg = errMsg || 'Une erreur est survenue lors du traitement de votre requête. Veuillez reéssayer.';
+                res.render('account/login', { user: usr, pageTitle: 'Connexion', errorMessage: errMsg });   
+            };      
+            User.findOne({ email: usr.email }, function (err, user) {
+                if (err) {
+                    util.log(err);
+                    return renderView();   
+                }
+                var incorrectCredentialsMessage = 'Email ou mot de passe incorrect.';
+                if (!user) {
+                    return renderView(incorrectCredentialsMessage);   
+                }
+                security.verifyPbkdf2(usr.password, user.salt, user.password, function (err, success) {
+                    if (err) {
+                        util.log(err);
+                        return renderView();
+                    }    
+                    if (!success) {
+                        return renderView (incorrectCredentialsMessage);
+                    }
+                    res.redirect('/admin/articles');
+                });
+            }); 
+      });
+
+/* registration page. */
 router.route('/register')
-      .get(function(req, res) {
-            //get sweetcaptcha html
-            captcha.api('get_html', function(err, html){
-                //Send the guts of the captcha to your template
+      .get(function (req, res) {
+            captcha.api('get_html', function(err, html) {
                 res.render('account/register', { pageTitle: 'Inscription', captcha: html });
             });
       })
-      .post(function(req, res) {
-    
+      .post(function (req, res) {   
             var usr = req.body.user;
-            var errMsg;
-            
-            if(usr.password !== usr.passwordConfirmation) {
-                errMsg = 'Les deux mots de passe fournis ne sont pas pareil';
-            } else { 
-                //Validate captcha
-                captcha.api('check', {sckey: req.body["sckey"], scvalue: req.body["scvalue"]}, function(err, response) {
-
+            var renderView = function (errMsg) {
+                errMsg = errMsg || 'Une erreur est survenue lors du traitement de votre requête. Veuillez reéssayer.';
+                captcha.api('get_html', function(err, html) {
+                    res.render('account/register', { user: usr, pageTitle: 'Inscription', errorMessage: errMsg, captcha: html });    
+                });
+            };      
+            if (usr.password !== usr.passwordConfirmation) {
+                return renderView('Les deux mots de passe fournis ne sont pas pareil.');
+            }
+            captcha.api('check', {sckey: req.body.sckey, scvalue: req.body.scvalue}, function(err, response) {
+                if (err) {
+                    util.log(err);
+                    return renderView();
+                }    
+                if (response !== 'true') {
+                    return renderView ('Êtes-vous humain? Veuillez le confirmer au bas du formulaire.');
+                }    
+                var user = new User({
+                    username: usr.username,
+                    name: {
+                        first: usr.name.first,
+                        last: usr.name.last
+                    },
+                    gender: usr.gender,
+                    dateOfBirth: usr.dateOfBirth,
+                    email: usr.email
+                });     
+                security.pbkdf2(usr.password, function (err, key, salt) {             
                     if (err) {
                         util.log(err);
-                    } else if (response === 'true') {
-
-                        var user = new User({
-                            username: usr.username,
-                            name: {
-                                first: usr.name.first,
-                                last: usr.name.last
-                            },
-                            gender: usr.gender,
-                            dateOfBirth: usr.dateOfBirth,
-                            emailAddress: usr.emailAddress,
-                            password: usr.password
-                        });
-
-                        return res.json(usr);
+                        return renderView();
                     }
+                    user.password = key;
+                    user.passwordSalt = salt;
+                    user.save(function (err, user) {
+                        if (err) {
+                            return res.send(err);   
+                        }
+                        res.redirect('/admin/articles');
+                    });
                 });
-
-                errMsg = errMsg || 'Une erreur est survenue lors du traitement de votre requête. Veuillez reéssayer.';
-
-                res.render('account/register', { user: usr, pageTitle: 'Inscription', errorMessage: errMsg, captcha: html, user: usr });
-            };
+            });
       });
 
 module.exports = router;

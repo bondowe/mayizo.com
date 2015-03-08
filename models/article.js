@@ -18,6 +18,7 @@ var articleSchema = new Schema({
     lastEditedDate: Date,
     authors: [{ type: mongoose.Schema.Types.ObjectId }], // refers to user._id
     lastEditor: mongoose.Schema.Types.ObjectId,
+    keywords: [String],
     likes: {
         up: { type: Number, default: 0 },
         down: { type: Number, default: 0 }
