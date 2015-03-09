@@ -30,14 +30,14 @@ router.route('/login')
                 if (!user) {
                     return renderView(incorrectCredentialsMessage);   
                 }
-                security.verifyPbkdf2(usr.password, user.salt, user.password, function (err, success) {
+                security.verifyPbkdf2(usr.password, user.passwordSalt, user.password, function (err, success) {
                     if (err) {
-                        util.log(err);
                         return renderView();
                     }    
                     if (!success) {
                         return renderView (incorrectCredentialsMessage);
                     }
+                    req.session.user = user;
                     res.redirect('/admin/articles');
                 });
             }); 

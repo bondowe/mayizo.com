@@ -2,15 +2,16 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon'); 
 var util = require('util');
-var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var bodyParser = require('body-parser');
 var sassMiddleware = require('node-sass-middleware');
+var helmet = require('helmet');
 var requestLogger = require('morgan');
 var config = require('./config');
 var mongoose = require('mongoose');
 var dateUtils = require('date-utils');
 
-var debuglog = util.debuglog('development');
+var debuglog = util.debuglog('mayizo:app');
 
 var routes = require('./routes/index');
 var account = require('./routes/account');
@@ -39,7 +40,26 @@ app.set('view engine', 'jade');
 app.use(requestLogger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(helmet.csp({
+  defaultSrc: ["'self'"],
+  scriptSrc: ["'self'", "'unsafe-inline'", '*.googleapis.com', '*.bootstrapcdn.com', '*.maxcdn.com', 'mayizocom.disqus.com', '*.disquscdn.com'],
+  styleSrc: ["'self'", "'unsafe-inline'", '*.googleapis.com', '*.bootstrapcdn.com'],
+  imgSrc: ["'self'", '*.youtube.com'],
+  connectSrc: ["'none'"],
+  fontSrc: ["'self'", '*.gstatic.com', '*.bootstrapcdn.com'],
+  objectSrc: ["'self'", '*.youtube.com'],
+  mediaSrc: ["'self'", '*.youtube.com'],
+  frameSrc: ['*.youtube.com', 'disqus.com']
+}));
+app.use(helmet.xssFilter());
+app.use(helmet.xframe());
+app.use(helmet.hidePoweredBy({ setTo: 'Electricity' }));
+app.use(session({
+    name: 'mayizo.com',
+    secret: '5!8523Q45FGHFKUhtki23"£4HLhpo' ,
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.use(
   sassMiddleware({

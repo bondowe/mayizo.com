@@ -5,8 +5,10 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('mayizo:server');
+var util = require('util');
 var http = require('http');
+
+var debuglog = util.debuglog('mayizo:server');
 
 /**
  * Get port from environment and store in Express.
@@ -86,5 +88,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  debuglog('Listening on ' + bind);
 }

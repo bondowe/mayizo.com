@@ -8,7 +8,7 @@ function pbkdf2 (password, salt, callback) {
     if (callback == undefined && util.isFunction(salt)) {
         callback = salt;
         salt = null;
-    } 
+    }
     var fn = function (salt) {
         return crypto.pbkdf2(password, salt, pbkdf2Config.iterations, pbkdf2Config.keyLength, pbkdf2Config.digest, function (err, buf) {
             var key = buf.toString('hex');
