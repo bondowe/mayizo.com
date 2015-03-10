@@ -1,5 +1,5 @@
 var fs = require('fs');
-var merge = require('merge');
+var merge = require('merge-deep');
 
 var config = {
     
@@ -30,4 +30,4 @@ var envConfigFile = (process.env.NODE_ENV || 'development');
 var envConfig = require('./env/' + envConfigFile);
 
 
-module.exports = merge(true, config, envConfig);
+module.exports = merge(config, envConfig);
