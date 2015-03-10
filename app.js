@@ -9,6 +9,7 @@ var helmet = require('helmet');
 var requestLogger = require('morgan');
 var config = require('./config');
 var mongoose = require('mongoose');
+var marked= require('marked');
 var dateUtils = require('date-utils');
 
 var debuglog = util.debuglog('mayizo:app');
@@ -34,6 +35,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.locals.markdown= marked;
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -45,7 +47,7 @@ app.use(helmet.csp({
   scriptSrc: ["'self'", "'unsafe-inline'", '*.googleapis.com', '*.bootstrapcdn.com', '*.maxcdn.com', 'mayizocom.disqus.com', '*.disquscdn.com'],
   styleSrc: ["'self'", "'unsafe-inline'", '*.googleapis.com', '*.bootstrapcdn.com'],
   imgSrc: ["'self'", '*.youtube.com'],
-  connectSrc: ["'none'"],
+  connectSrc: ["'self'"],
   fontSrc: ["'self'", '*.gstatic.com', '*.bootstrapcdn.com'],
   objectSrc: ["'self'", '*.youtube.com'],
   mediaSrc: ["'self'", '*.youtube.com'],
@@ -60,7 +62,6 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
-
 app.use(
   sassMiddleware({
     src: path.join(__dirname, '/sass'),
@@ -69,15 +70,21 @@ app.use(
     debug: true,
   })
 );
-
+app.use(function (req, res, next) {
+    if (req.session.user) {
+        res.locals.isAuthenticated = true;
+        res.locals.user = req.session.user;
+    }
+    next();
+});
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/account', account);
-app.use('/admin', admin);
+app.use('/admin', mustAuthenticate, admin);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -88,7 +95,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
+    app.use(function (err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -99,7 +106,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
@@ -107,6 +114,13 @@ app.use(function(err, req, res, next) {
     });
 });
 
+
+function mustAuthenticate(req, res, next) {
+    if (! req.session.user) {
+        return res.redirect('/account/login?returnUrl=' + req.originalUrl);
+    }
+    next();
+}
 
 module.exports = app;
 

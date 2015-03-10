@@ -10,39 +10,6 @@ var captcha = sweetcaptcha(config.sweetcaptcha.appId, config.sweetcaptcha.appKey
 
 var User = require('../models/user');
 
-/* login page. */
-router.route('/login')
-      .get(function (req, res) {
-            res.render('account/login', { pageTitle: 'Connexion' });
-      })
-      .post(function (req, res) {
-            var usr = req.body.user;
-            var renderView = function (errMsg) {
-                errMsg = errMsg || 'Une erreur est survenue lors du traitement de votre requête. Veuillez reéssayer.';
-                res.render('account/login', { user: usr, pageTitle: 'Connexion', errorMessage: errMsg });   
-            };      
-            User.findOne({ email: usr.email }, function (err, user) {
-                if (err) {
-                    util.log(err);
-                    return renderView();   
-                }
-                var incorrectCredentialsMessage = 'Email ou mot de passe incorrect.';
-                if (!user) {
-                    return renderView(incorrectCredentialsMessage);   
-                }
-                security.verifyPbkdf2(usr.password, user.passwordSalt, user.password, function (err, success) {
-                    if (err) {
-                        return renderView();
-                    }    
-                    if (!success) {
-                        return renderView (incorrectCredentialsMessage);
-                    }
-                    req.session.user = user;
-                    res.redirect('/admin/articles');
-                });
-            }); 
-      });
-
 /* registration page. */
 router.route('/register')
       .get(function (req, res) {
@@ -95,5 +62,44 @@ router.route('/register')
                 });
             });
       });
+
+/* login page. */
+router.route('/login')
+      .get(function (req, res) {
+            res.render('account/login', { pageTitle: 'Connexion', returnUrl: req.query.returnUrl });
+      })
+      .post(function (req, res) {
+            var usr = req.body.user;
+            var renderView = function (errMsg) {
+                delete req.session.user;
+                errMsg = errMsg || 'Une erreur est survenue lors du traitement de votre requête. Veuillez reéssayer.';
+                res.render('account/login', { user: usr, pageTitle: 'Connexion', returnUrl: req.body.returnUrl,  errorMessage: errMsg });   
+            };      
+            User.findOne({ email: usr.email }, function (err, user) {
+                if (err) {
+                    return renderView();   
+                }
+                var incorrectCredentialsMessage = 'Email ou mot de passe incorrect.';
+                if (!user) {
+                    return renderView(incorrectCredentialsMessage);   
+                }
+                security.verifyPbkdf2(usr.password, user.passwordSalt, user.password, function (err, success) {
+                    if (err) {
+                        return renderView();
+                    }    
+                    if (!success) {
+                        return renderView (incorrectCredentialsMessage);
+                    }
+                    req.session.user = user;
+                    res.redirect(req.body.returnUrl || '/');
+                });
+            }); 
+      });
+
+/* login page. */
+router.get('/logout', function (req, res) {
+    delete req.session.user;
+    return res.redirect('/');
+});
 
 module.exports = router;

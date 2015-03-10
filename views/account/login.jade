@@ -12,6 +12,8 @@ block content
             if errorMessage
                 div(class="alert alert-danger" role="alert")= errorMessage
             
+            input(type='hidden' name='returnUrl' value='#{ returnUrl }')
+            
             div(class="form-group")
                 label(for="userEmail") Adresse email
                 input(type="email" class="form-control" name="user[email]" id="userEmail" required placeholder="Votre adresse email")

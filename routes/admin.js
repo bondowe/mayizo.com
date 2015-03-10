@@ -1,14 +1,23 @@
 var express = require('express');
 var router = express.Router();
 var config = require('../config');
+var util = require('util');
 var Article = require('../models/article');
+var User = require('../models/user');
+
+var debuglog = util.debuglog('mayizo:admin');
 
 /* GET articles list. */
 router.get('/articles', function(req, res) {
     
-    Article.find().sort({createdDate: -1}).exec(function(err, articles) {       
-        res.render('admin/articles', { articles: articles, pageTitle: 'Articles' });
-    });
+    Article.find()
+            .sort({createdDate: -1})
+            .exec(function(err, articles) {
+                User.find({ _id: { $in: articles.reduce(function (list, article) { return list.concat(article.authors);  }, []) }})
+                    .exec(function(err, auths) {
+                        res.render('admin/articles', { articles: articles, authors: auths, pageTitle: 'Articles' });
+                    });
+            });
 });
 
 /* GET new article */
@@ -26,7 +35,8 @@ router.route('/new-article')
                 content: art.content,
                 smallImage: art.smallImage || undefined,
                 largeImage: art.largeImage || undefined,
-                video: art.video || undefined               
+                video: art.video || undefined,
+                authors: [req.session.user]
             });
     
             article.save(function(err, article, next) {

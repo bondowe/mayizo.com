@@ -14,16 +14,15 @@ var articleSchema = new Schema({
     reviewed: { type: Boolean, default: false },
     reviewedBy: { type: mongoose.Schema.Types.ObjectId },
     leadingArticle: Boolean,
-    createdDate: { type: Date, default: Date.now },
-    lastEditedDate: Date,
+    createdDate: { type: Date, default: Date.now, required: true },
     authors: [{ type: mongoose.Schema.Types.ObjectId }], // refers to user._id
-    lastEditor: mongoose.Schema.Types.ObjectId,
-    keywords: [String],
+    lastEditedDate: Date,
+    lastEditors: [{ type: mongoose.Schema.Types.ObjectId }],
+    keywords: [{ type: String }],
     likes: {
         up: { type: Number, default: 0 },
         down: { type: Number, default: 0 }
-    } 
-    
+    }     
 });
 
 var Article = mongoose.model('Article', articleSchema);

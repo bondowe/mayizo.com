@@ -32,6 +32,9 @@ html(lang='fr')
                         a(class='navbar-brand' href='/') Mayizo.com
                     div(id="navbar" class="navbar-collapse collapse")
                         ul(class="nav navbar-nav navbar-right")
+                            if isAuthenticated
+                                li
+                                    a(href="/account/logout") Logout
                             li 
                                 a(href="#") Feedback
                             li 
