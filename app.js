@@ -22,12 +22,9 @@ mongoose.connect(config.db.uri, config.db.options);
 
 var db = mongoose.connection;
 
-db.on('error', function () {
-  util.log('Mongo database connection error:');
-  JSON.stringify(config.db);
-});
+db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function (callback) {
-  util.log('Mongo database connection opened.');
+  util.log('Mongo database connection opened: ' + config.db.uri);
 });
 
 var app = express();
