@@ -1,16 +1,8 @@
 var config = {
     
     db: {
-        uri: 'mongodb://centauri/mayizo',
-        options: {
-            user: 'mayizo',
-            pass: 'cfhfKJ&£l5475#jd',
-            auth: {
-                authdb: 'admin'
-            }
-        }
+        uri: 'mongodb://mayizo:cfhfKJ&£l5475#jd@centauri/mayizo?authSource=admin'
     }
-    
 };
 
 module.exports = config;
