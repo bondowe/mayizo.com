@@ -1,7 +1,7 @@
 var config = {
     
     db: {
-        uri: 'mongodb://mayizoCom:234254YRSSDSRsREE£$%^555@centauri/mayizoCom',
+        uri: 'mongodb://elondo:mo19731103MO@centauri/mayizoCom?authSource=admin'
     }   
 };
 
