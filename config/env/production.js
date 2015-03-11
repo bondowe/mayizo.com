@@ -1,11 +1,7 @@
 var config = {
     
     db: {
-        uri: 'mongodb://centauri/mayizoCom',
-        options: {
-            user: 'mayizoCom',
-            pass: '234254YRSSDSRsREE£$%^555'
-        }
+        uri: 'mongodb://mayizoCom:234254YRSSDSRsREE£$%^555@centauri/mayizoCom',
     }   
 };
 
