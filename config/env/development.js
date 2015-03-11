@@ -1,7 +1,7 @@
 var config = {
     
     db: {
-        uri: 'mongodb://localhost/mayizo'
+        uri: 'mongodb://localhost/mayizoCom'
     }  
 };
 
