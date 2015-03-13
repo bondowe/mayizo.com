@@ -1,0 +1,51 @@
+extends ../layout
+
+block content
+     
+    div(class='container center-block main-form large-form') 
+
+        form(method="post" action="/admin/edit-article/#{ article._id }" enctype="application/x-www-form-urlencoded")
+            
+            h1 Modifier l'article   
+                            
+            div(class="form-group")
+                label(for="articleTitle") Titre
+                input(class="form-control" name="article[title]" id="articleTitle" value='#{ article.title }' maxlength="125" required placeholder="Le titre de l'article")
+                
+            div(class="form-group")
+                label(for="articleSmallImage") Petite image
+                input(type='url' class="form-control" name="article[smallImage]" id="articleSmallImage" value='#{ article.smallImage || "" }' maxlength="250" placeholder="Le lien de l'image de peite taille")
+                
+            div(class="form-group")
+                label(for="articleLargeImage") Grande image
+                input(type='url' class="form-control" name="article[largeImage]" id="articleLargeImage" value='#{ article.largeImage || "" }' maxlength="250" placeholder="Le lien de l'image de grande taille")
+                
+            div(class="form-group")
+                label(for="articleVideo") Video
+                input(type='url' class="form-control" name="article[video]" id="articleVideo" value='#{ article.video || "" }' maxlength="250" placeholder="Le lien de la vidéo")
+
+            div(class="row form-row")
+                div(class="col-xs-6")
+                    div
+                        label(class="inline")
+                            input(type="checkbox" name="article[live]" id="articleLive" value="true") 
+                            | Actif
+                        label(class="inline")
+                            input(type="checkbox" name="article[commentsAllowed]" id="articleCommentsAllowed" value="true")
+                            | Commentaires
+                            
+            div(class="form-group")
+                label(for="articleSummary") Sommaire
+                textarea(class="form-control autosize" rows="3" name="article[summary]" id="articleSummary" maxlength="250" required placeholder="Le sommaire de l'article")= article.summary
+                
+            div(class="form-group")
+                label(for="articleContent") Contenu
+                textarea(class="form-control autosize" rows="8" name="article[content]" id="articleContent" value='#{ article.content }' maxlength="6400" required placeholder="Le contenu de l'article")= article.content
+                    
+            button(type="submit" class="btn btn-default") Sauvegarder
+
+    block append moreScripts
+        script(src='/vendor/autosize/dest/autosize.min.js')
+        script(src='/javascripts/textarea-autosize.js')
+        
+        

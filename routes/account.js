@@ -14,7 +14,13 @@ var User = require('../models/user');
 router.route('/register')
       .get(function (req, res) {
             captcha.api('get_html', function(err, html) {
-                res.render('account/register', { pageTitle: 'Inscription', captcha: html });
+                var usr = { 
+                    username: '',
+                    name: { first: '', last: ''},
+                    dateOfBirth: '',
+                    email: ''             
+                };
+                res.render('account/register', { user:usr, pageTitle: 'Inscription', captcha: html });
             });
       })
       .post(function (req, res) {   
@@ -66,7 +72,8 @@ router.route('/register')
 /* login page. */
 router.route('/login')
       .get(function (req, res) {
-            res.render('account/login', { pageTitle: 'Connexion', returnUrl: req.query.returnUrl });
+            var usr = { email: '' };
+            res.render('account/login', { user: usr, pageTitle: 'Connexion', returnUrl: req.query.returnUrl });
       })
       .post(function (req, res) {
             var usr = req.body.user;
@@ -90,8 +97,11 @@ router.route('/login')
                     if (!success) {
                         return renderView (incorrectCredentialsMessage);
                     }
-                    req.session.user = user;
-                    res.redirect(req.body.returnUrl || '/');
+                    req.session.user = user;         
+                    var returnUrl = (req.body.returnUrl && req.body.returnUrl != 'undefined')
+                                ? req.body.returnUrl 
+                                : '/';    
+                    res.redirect(returnUrl);
                 });
             }); 
       });

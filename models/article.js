@@ -13,6 +13,7 @@ var articleSchema = new Schema({
     commentsAllowed: { type: Boolean, default: true },
     reviewed: { type: Boolean, default: false },
     reviewedBy: { type: mongoose.Schema.Types.ObjectId },
+    live: { type: Boolean, default: false },
     leadingArticle: Boolean,
     createdDate: { type: Date, default: Date.now, required: true },
     authors: [{ type: mongoose.Schema.Types.ObjectId }], // refers to user._id

@@ -9,15 +9,20 @@ block content
             thead
                 th Date
                 th Titre
-                th Approuvé par
-                th Auteur(s)
+                th Actif
+                th Commentaires
+                th
             tbody
                 each article in articles
                     tr
                         td= article.createdDate.toFormat('DD MM YYYY HH24:MI:SS')
                         td= article.title
-                        td= article.reviewedBy
-                        td= authors.filter(function (elem) { return article.authors.some(function(authorId) { return elem._id.equals(authorId); }) }).map(function (elem) { return elem.name.first + ' ' + elem.name.last; }).join(', ')
+                        td
+                            span(class={ 'glyphicon glyphicon-ok': article.live, 'glyphicon glyphicon-remove': ! article.live })          
+                        td
+                            span(class={ 'glyphicon glyphicon-ok': article.commentsAllowed, 'glyphicon glyphicon-remove': ! article.commentsAllowed })
+                        td
+                            a(class='btn btn-default' href='/admin/edit-article/#{ article._id }') Détails
             tfoot
             
         a(class='btn btn-default' href='/admin/new-article') 

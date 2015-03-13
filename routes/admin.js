@@ -23,12 +23,18 @@ router.get('/articles', function(req, res) {
 /* GET new article */
 router.route('/new-article')
       .get(function(req, res) {
-           res.render('admin/new-article', { pageTitle: 'Nouvel Article' });
+            var art = {
+                title: '',
+                summary: '',
+                content: '',
+                smallImage: '',
+                largeImage: '',
+                video: ''
+            };
+           res.render('admin/new-article', {article: art, pageTitle: 'Nouvel Article' });
       })
       .post(function(req, res) {
-    
             var art = req.body.article;
-    
             var article = new Article({
                 title: art.title,
                 summary: art.summary,
@@ -38,7 +44,35 @@ router.route('/new-article')
                 video: art.video || undefined,
                 authors: [req.session.user]
             });
-    
+            article.save(function(err, article, next) {
+                if(err) {
+                    return res.json(err);   
+                }
+                res.redirect('/admin/articles');
+            });
+      });
+
+/* GET new article */
+router.route('/edit-article/:articleId')
+      .get(function(req, res) {
+            Article.findById(req.params.articleId, function(err, article) {
+                if (err) {
+                    return res.json(err);
+                }
+                res.render('admin/edit-article', { article: article, pageTitle: 'Nouvel Article' });
+            });
+      })
+      .post(function(req, res) {   
+            var art = req.body.article;  
+            var article = new Article({
+                title: art.title,
+                summary: art.summary,
+                content: art.content,
+                smallImage: art.smallImage || undefined,
+                largeImage: art.largeImage || undefined,
+                video: art.video || undefined,
+                authors: [req.session.user]
+            });  
             article.save(function(err, article, next) {
                 if(err) {
                     return res.json(err);   

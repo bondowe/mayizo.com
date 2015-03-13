@@ -16,17 +16,17 @@ block content
             
                 div(class="col-xs-6")
                     label(for="userNameFirst") Prénom
-                    input(type="text" class="form-control" name="user[name][first]" id="userNameFirst" required placeholder="Votre prénom")
+                    input(type="text" class="form-control" name="user[name][first]" id="userNameFirst" value="#{ user.name.first }" required placeholder="Votre prénom")
               
                 div(class="col-xs-6")
                     label(for="userNameLast") Nom
-                    input(type="text" class="form-control" name="user[name][last]" id="userNameLast" required placeholder="Votre nom de famille")
+                    input(type="text" class="form-control" name="user[name][last]" id="userNameLast" value="#{ user.name.last }" required placeholder="Votre nom de famille")
                     
             div(class="row form-row")
             
                 div(class="col-xs-6")
                     label(for="userDateOfBirth") Date de naissance
-                    input(type="date" class="form-control" name="user[dateOfBirth]" id="userDateOfBirth" required placeholder="Votre date de naissance")
+                    input(type="date" class="form-control" name="user[dateOfBirth]" id="userDateOfBirth" value="#{ user.dateOfBirth }" required placeholder="Votre date de naissance")
             
                 div(class="col-xs-6")
                     label(for="userGenderFemale") Sexe
@@ -43,11 +43,11 @@ block content
                             
             div(class="form-group")
                 label(for="userEmail") Adresse email
-                input(type="email" class="form-control" name="user[email]" id="userEmail" required placeholder="Votre adresse email")
+                input(type="email" class="form-control" name="user[email]" id="userEmail" value="#{ user.email }" required placeholder="Votre adresse email")
                 
             div(class="form-group")
                 label(for="userUsername") Nom d'utilisateur
-                input(type="text" class="form-control" name="user[username]" id="userUsername" required placeholder="Votre nom d'utilisateur")
+                input(type="text" class="form-control" name="user[username]" id="userUsername" value="#{ user.username }" required placeholder="Votre nom d'utilisateur")
                 
             div(class="row form-row")
             

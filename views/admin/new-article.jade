@@ -10,27 +10,27 @@ block content
                             
             div(class="form-group")
                 label(for="articleTitle") Titre
-                input(class="form-control" name="article[title]" id="articleTitle" maxlength="125" required placeholder="Le titre de l'article")
+                input(class="form-control" name="article[title]" id="articleTitle" value='#{ article.title }' maxlength="125" required placeholder="Le titre de l'article")
                 
             div(class="form-group")
                 label(for="articleSmallImage") Petite image
-                input(type='url' class="form-control" name="article[smallImage]" id="articleSmallImage" maxlength="250" placeholder="Le lien de l'image de peite taille")
+                input(type='url' class="form-control" name="article[smallImage]" id="articleSmallImage" value='#{ article.smallImage }' maxlength="250" placeholder="Le lien de l'image de peite taille")
                 
             div(class="form-group")
                 label(for="articleLargeImage") Grande image
-                input(type='url' class="form-control" name="article[largeImage]" id="articleLargeImage" maxlength="250" placeholder="Le lien de l'image de grande taille")
+                input(type='url' class="form-control" name="article[largeImage]" id="articleLargeImage" value='#{ article.largeImage }' maxlength="250" placeholder="Le lien de l'image de grande taille")
                 
             div(class="form-group")
                 label(for="articleVideo") Video
-                input(type='url' class="form-control" name="article[video]" id="articleVideo" maxlength="250" placeholder="Le lien de la vidéo")
+                input(type='url' class="form-control" name="article[video]" id="articleVideo" value='#{ article.video }' maxlength="250" placeholder="Le lien de la vidéo")
                 
             div(class="form-group")
                 label(for="articleSummary") Sommaire
-                textarea(class="form-control autosize" rows="3" name="article[summary]" id="articleSummary" maxlength="250" required placeholder="Le sommaire de l'article")
+                textarea(class="form-control autosize" rows="3" name="article[summary]" id="articleSummary" value='#{ article.summary }' maxlength="250" required placeholder="Le sommaire de l'article")
                 
             div(class="form-group")
                 label(for="articleContent") Contenu
-                textarea(class="form-control autosize" rows="8" name="article[content]" id="articleContent" maxlength="6400" required placeholder="Le contenu de l'article")
+                textarea(class="form-control autosize" rows="8" name="article[content]" id="articleContent" value='#{ article.content }' maxlength="6400" required placeholder="Le contenu de l'article")
                     
             button(type="submit" class="btn btn-default") Sauvegarder
 

@@ -3,6 +3,7 @@ var path = require('path');
 var favicon = require('serve-favicon'); 
 var util = require('util');
 var session = require('express-session');
+var connectMongo = require('connect-mongo');
 var bodyParser = require('body-parser');
 var sassMiddleware = require('node-sass-middleware');
 var helmet = require('helmet');
@@ -41,9 +42,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet.csp({
   defaultSrc: ["'self'"],
-  scriptSrc: ["'self'", "'unsafe-inline'", '*.googleapis.com', '*.bootstrapcdn.com', '*.maxcdn.com', 'mayizocom.disqus.com', '*.disquscdn.com'],
+  scriptSrc: [
+      "'self'", "'unsafe-inline'", '*.googleapis.com', '*.bootstrapcdn.com', '*.maxcdn.com', 
+      'mayizocom.disqus.com', '*.disquscdn.com', '*.jquery.com', '*.sweetcaptcha.com'
+  ],
   styleSrc: ["'self'", "'unsafe-inline'", '*.googleapis.com', '*.bootstrapcdn.com'],
-  imgSrc: ["'self'", '*.youtube.com'],
+  imgSrc: ["'self'", '*.youtube.com', 'sweetcaptcha.s3.amazonaws.com'],
   connectSrc: ["'self'"],
   fontSrc: ["'self'", '*.gstatic.com', '*.bootstrapcdn.com'],
   objectSrc: ["'self'", '*.youtube.com'],
@@ -53,11 +57,19 @@ app.use(helmet.csp({
 app.use(helmet.xssFilter());
 app.use(helmet.xframe());
 app.use(helmet.hidePoweredBy({ setTo: 'Electricity' }));
+var MongoStore = connectMongo(session);
 app.use(session({
     name: 'mayizo.com',
     secret: '5!8523Q45FGHFKUhtki23"£4HLhpo' ,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store: new MongoStore({ 
+        mongooseConnection: db, 
+        ttl: 24 * 60 * 60,
+        autoRemove: 'interval',
+        autoRemoveInterval: 10, // In minutes.
+        touchAfter: 4 * 3600 // time period in seconds
+    })
 }));
 app.use(
   sassMiddleware({
