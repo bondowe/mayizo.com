@@ -26,7 +26,7 @@ block content
                                 a(href='/article/#{ article.id }')
                                     img(src='#{ article.smallImage }' style='float:left; margin-right: 10px;')
                                     
-                            != markdown(article.allContent.substring(0, 185))
+                            != markdown(article.allContent.substring(0, 170) + ' ...')
 
 
 
