@@ -26,6 +26,10 @@ var articleSchema = new Schema({
     }     
 });
 
+articleSchema.virtual('allContent').get(function () {
+  return this.summary + ' ' + this.content;
+});
+
 var Article = mongoose.model('Article', articleSchema);
 
 module.exports = Article;

@@ -4,6 +4,7 @@ var config = require('../config');
 var util = require('util');
 var Article = require('../models/article');
 var User = require('../models/user');
+var Author = require('../models/author');
 
 var debuglog = util.debuglog('mayizo:admin');
 
@@ -20,7 +21,7 @@ router.get('/articles', function(req, res) {
             });
 });
 
-/* GET new article */
+/* new article */
 router.route('/new-article')
       .get(function(req, res) {
             var art = {
@@ -31,7 +32,7 @@ router.route('/new-article')
                 largeImage: '',
                 video: ''
             };
-           res.render('admin/new-article', {article: art, pageTitle: 'Nouvel Article' });
+           res.render('admin/new-article', {article: art, pageTitle: 'Nouvel article' });
       })
       .post(function(req, res) {
             var art = req.body.article;
@@ -39,10 +40,10 @@ router.route('/new-article')
                 title: art.title,
                 summary: art.summary,
                 content: art.content,
-                smallImage: art.smallImage || undefined,
-                largeImage: art.largeImage || undefined,
-                video: art.video || undefined,
-                authors: [req.session.user]
+                smallImage: art.smallImage,
+                largeImage: art.largeImage,
+                video: art.video,
+                authors: [req.session.user.id]
             });
             article.save(function(err, article, next) {
                 if(err) {
@@ -52,33 +53,60 @@ router.route('/new-article')
             });
       });
 
-/* GET new article */
+/* edit article */
 router.route('/edit-article/:articleId')
       .get(function(req, res) {
             Article.findById(req.params.articleId, function(err, article) {
                 if (err) {
                     return res.json(err);
                 }
-                res.render('admin/edit-article', { article: article, pageTitle: 'Nouvel Article' });
+                res.render('admin/edit-article', { article: article, pageTitle: 'Modifier l\'article' });
             });
       })
       .post(function(req, res) {   
-            var art = req.body.article;  
-            var article = new Article({
+            var art = req.body.article;
+            var upd = {
                 title: art.title,
                 summary: art.summary,
                 content: art.content,
-                smallImage: art.smallImage || undefined,
-                largeImage: art.largeImage || undefined,
-                video: art.video || undefined,
-                authors: [req.session.user]
-            });  
-            article.save(function(err, article, next) {
+                smallImage: art.smallImage,
+                largeImage: art.largeImage,
+                video: art.video,
+                live: art.live,
+                commentsAllowed: art.commentsAllowed,
+                lastEditedDate: new Date(),
+                lastEditors: [req.session.user.id]  
+            };
+            Article.findOneAndUpdate({ _id: req.params.articleId }, upd, { new: true }, function (err, article) {
                 if(err) {
                     return res.json(err);   
                 }
                 res.redirect('/admin/articles');
             });
       });
+
+/* GET preview article */
+router.get('/preview-article/:articleId', function(req, res) {
+    Article.findById(req.params.articleId, function(err, article) {
+        if (err) {
+            return res.json(err);
+        }
+        Article.find({ _id: { $ne: article.id } }).sort({ lastEditedDate: -1 }).limit(2).exec(function(err, relatedArticles) {
+            if (err) {
+                util.log(err);
+            }
+            var authorIds = article.authors;
+            if(article.lastEditors) {
+                authorIds = authorIds.concat(article.lastEditors);
+            }
+            Author.find({ userId: { $in: authorIds } }, function (err, authors) {
+                if (err) {
+                    return res.json(err);
+                }       
+                res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, pageTitle: 'Preview de l\'article' });
+            })
+        });
+    });
+});
 
 module.exports = router;

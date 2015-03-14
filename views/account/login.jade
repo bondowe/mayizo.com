@@ -22,7 +22,13 @@ block content
                 label(for="userPassword") Mot de passe
                 input(type="password" class="form-control" name="user[password]" id="userPassword" required placeholder="Votre mot de passe")
 
-            button(type="submit" class="btn btn-default") Connexion
+            div(class="form-action")
+                button(type="submit" class="btn btn-default") 
+                    span(class='glyphicon glyphicon-log-in')  
+                    span Connexion
+                a(class='btn btn-default' href='/') 
+                    span(class='glyphicon glyphicon-remove')  
+                    span Annuler
             
             p(class="help-block") Vous n'avez pas de compte? 
                 a(href="/account/register") Enregistrez-vous

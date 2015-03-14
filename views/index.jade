@@ -5,82 +5,29 @@ block content
     div(class='jumbotron')
         div(class='container')
             div(class='headline-media')
-                a(href='/article/fsdfgdgfsd' class='img-responsive')
-                    img(src='http://img.youtube.com/vi/g0zHN-bAGnE/hqdefault.jpg')
+                a(href='/article/#{ leadArticle.id }' class='img-responsive')
+                    img(src='#{ leadArticle.largeImage }')
             div(class='headline-content')
-                a(href='/article/fsdfgdgfsd')
-                    h1 Hello, world!
-                p.
-                    Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, 
-                    tortor mauris condimentum nibh, ut fermentum massa justo sit a met risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. 
-                p.
-                    fdgfgg dgfd dfgg Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, 
-                    tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-                p.
-                    Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-                p.
-                    Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
+                a(href='/article/#{ leadArticle.id }')
+                    h1= leadArticle.title
                     
-                        
-    div(class='container') 
-
-        div(class='row')
-   
-            div(class='col-md-6 article-index-item')
-                article
-                    header
-                        h2 
-                            a(href='/article/fsdfgdgfsd') Le Liberia annonce n' avoir plus aucun malade d'Ebola
-                    p
-                        a(href='/article/fsdfgdgfsd')
-                            img(src='http://img.youtube.com/vi/g0zHN-bAGnE/1.jpg' style='float:left; margin-right: 10px;')
-                        | Donec id elit non mi porta gravida at eget metus. 
-                        | Fusce dapibus, <strong>tellus</strong> ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. 
-                        | Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-                        a(href='/article/fsdfgdgfsd' class='font-italic')
-
-            div(class='col-md-6 article-index-item')
-                article
-                    header
-                        h2 
-                            a(href='/article/fsdfgdgfsd') Heading tomorrow home early
-                    p
-                        a(href='/article/fsdfgdgfsd')
-                            img(src='http://img.youtube.com/vi/g0zHN-bAGnE/1.jpg' style='float:left; margin-right: 10px;')
-                        | Donec id elit non mi porta gravida at eget metus. 
-                        | Fusce dapibus, <strong>tellus</strong> ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. 
-                        | Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-                        a(href='/article/fsdfgdgfsd' class='font-italic')
-
-        div(class='row')
-   
-            div(class='col-md-6 article-index-item')
-                article
-                    header
-                        h2 
-                            a(href='/article/fsdfgdgfsd') Heading tomorrow home early
-                    p
-                        a(href='/article/fsdfgdgfsd')
-                            img(src='http://img.youtube.com/vi/g0zHN-bAGnE/1.jpg' style='float:left; margin-right: 10px;')
-                        | Donec id elit non mi porta gravida at eget metus. 
-                        | Fusce dapibus, <strong>tellus</strong> ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. 
-                        | Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. dsdgfgdf lokiu nhg t.
-                        a(href='/article/fsdfgdgfsd' class='font-italic')
-                    
-            div(class='col-md-6 article-index-item')
-                article
-                    header
-                        h2 
-                            a(href='/article/fsdfgdgfsd') Heading tomorrow home early
-                    p
-                        a(href='/article/fsdfgdgfsd')
-                            img(src='http://img.youtube.com/vi/g0zHN-bAGnE/1.jpg' style='float:left; margin-right: 10px;')
-                        | Donec id elit non mi porta gravida at eget metus. 
-                        | Fusce dapibus, <strong>tellus</strong> ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. 
-                        | Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-                        a(href='/article/fsdfgdgfsd' class='font-italic')
-                    
-                    
+                != markdown(leadArticle.allContent.substring(0, 800))
                 
+    div(class='container') 
+        div(class='row')
+            each article in articlesList
+                div(class='article-index-item')
+                    article
+                        header
+                            h2 
+                                a(href='/article/#{ article.id }')!= markdown(article.title)
+                                
+                            if article.smallImage
+                                a(href='/article/#{ article.id }')
+                                    img(src='#{ article.smallImage }' style='float:left; margin-right: 10px;')
+                                    
+                            != markdown(article.allContent.substring(0, 185))
+
+
 
 

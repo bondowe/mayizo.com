@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block content
 
@@ -31,10 +31,11 @@ block content
                         if relArticle.smallImage
                             a(href='/article/#{ relArticle.id }')
                                 img(src='#{ relArticle.smallImage }')
-                        != markdown(article.allContent.substring(0, 185))
+                        != markdown(relArticle.summary)
                     
             div(class='article-content')
-                != markdown(article.allContent)
+                != markdown(article.summary)
+                != markdown(article.content)
             
         if article.commentsAllowed
             div(id='disqus_thread')

@@ -25,24 +25,28 @@ block content
                 input(type='url' class="form-control" name="article[video]" id="articleVideo" value='#{ article.video || "" }' maxlength="250" placeholder="Le lien de la vidéo")
 
             div(class="row form-row")
-                div(class="col-xs-6")
-                    div
-                        label(class="inline")
-                            input(type="checkbox" name="article[live]" id="articleLive" value="true") 
-                            | Actif
-                        label(class="inline")
-                            input(type="checkbox" name="article[commentsAllowed]" id="articleCommentsAllowed" value="true")
-                            | Commentaires
-                            
+                div(class="col-xs-6 choice-inline")
+                    label(class="inline")
+                        input(type="checkbox" name="article[live]" id="articleLive" value="true" checked=article.live) 
+                        | Actif
+                    label(class="inline")
+                        input(type="checkbox" name="article[commentsAllowed]" id="articleCommentsAllowed" value="true" checked=article.commentsAllowed)
+                        | Commentaires                
             div(class="form-group")
                 label(for="articleSummary") Sommaire
-                textarea(class="form-control autosize" rows="3" name="article[summary]" id="articleSummary" maxlength="250" required placeholder="Le sommaire de l'article")= article.summary
+                textarea(class="form-control autosize" rows="3" name="article[summary]" id="articleSummary" maxlength="800" required placeholder="Le sommaire de l'article")= article.summary
                 
             div(class="form-group")
                 label(for="articleContent") Contenu
                 textarea(class="form-control autosize" rows="8" name="article[content]" id="articleContent" value='#{ article.content }' maxlength="6400" required placeholder="Le contenu de l'article")= article.content
-                    
-            button(type="submit" class="btn btn-default") Sauvegarder
+                
+            div(class="form-action")
+                button(type="submit" class="btn btn-default") 
+                    span(class='glyphicon glyphicon-floppy-disk')  
+                    span Sauvegarder
+                a(class='btn btn-default' href='/admin/articles') 
+                    span(class='glyphicon glyphicon-remove')  
+                    span Annuler
 
     block append moreScripts
         script(src='/vendor/autosize/dest/autosize.min.js')

@@ -7,11 +7,13 @@ block content
         hr
         table(id='articlesTable')
             thead
-                th Date
-                th Titre
-                th Actif
-                th Commentaires
-                th
+                tr
+                    th Écrit le
+                    th Titre
+                    th Actif
+                    th Commentaires
+                    th Modifié le
+                    th
             tbody
                 each article in articles
                     tr
@@ -21,8 +23,10 @@ block content
                             span(class={ 'glyphicon glyphicon-ok': article.live, 'glyphicon glyphicon-remove': ! article.live })          
                         td
                             span(class={ 'glyphicon glyphicon-ok': article.commentsAllowed, 'glyphicon glyphicon-remove': ! article.commentsAllowed })
+                        td= article.lastEditedDate ? article.lastEditedDate.toFormat('DD MM YYYY HH24:MI:SS') : ''
                         td
-                            a(class='btn btn-default' href='/admin/edit-article/#{ article._id }') Détails
+                            a(class='btn' href='/admin/edit-article/#{ article.id }') Modifier
+                            a(class='btn' href='/admin/preview-article/#{ article.id }') Afficher
             tfoot
             
         a(class='btn btn-default' href='/admin/new-article') 
@@ -30,6 +34,7 @@ block content
             span Ajouter un article
             
 block append moreStylesheets
+    link(href='/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css', rel='stylesheet')
     link(href='/vendor/datatables/media/css/jquery.dataTables.min.css', rel='stylesheet')
 
 block append moreScripts

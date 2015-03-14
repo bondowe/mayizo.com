@@ -63,7 +63,8 @@ router.route('/register')
                         if (err) {
                             return res.send(err);   
                         }
-                        res.redirect('/admin/articles');
+                        req.session.user = user;   
+                        res.redirect('/');
                     });
                 });
             });

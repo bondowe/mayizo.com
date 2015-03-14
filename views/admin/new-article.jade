@@ -26,13 +26,19 @@ block content
                 
             div(class="form-group")
                 label(for="articleSummary") Sommaire
-                textarea(class="form-control autosize" rows="3" name="article[summary]" id="articleSummary" value='#{ article.summary }' maxlength="250" required placeholder="Le sommaire de l'article")
+                textarea(class="form-control autosize" rows="3" name="article[summary]" id="articleSummary" value='#{ article.summary }' maxlength="800" required placeholder="Le sommaire de l'article")
                 
             div(class="form-group")
                 label(for="articleContent") Contenu
                 textarea(class="form-control autosize" rows="8" name="article[content]" id="articleContent" value='#{ article.content }' maxlength="6400" required placeholder="Le contenu de l'article")
                     
-            button(type="submit" class="btn btn-default") Sauvegarder
+            div(class="form-action")
+                button(type="submit" class="btn btn-default") 
+                    span(class='glyphicon glyphicon-floppy-disk')  
+                    span Sauvegarder
+                a(class='btn btn-default' href='/admin/articles') 
+                    span(class='glyphicon glyphicon-remove')  
+                    span Annuler
 
     block append moreScripts
         script(src='/vendor/autosize/dest/autosize.min.js')
