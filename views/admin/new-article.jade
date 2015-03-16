@@ -11,10 +11,14 @@ block content
             div(class="form-group")
                 label(for="articleTitle") Titre
                 input(class="form-control" name="article[title]" id="articleTitle" value='#{ article.title }' maxlength="125" required placeholder="Le titre de l'article")
+                                    
+            div(class="form-group")
+                label(for="articleKeywords") Mots clé
+                input(class="form-control" name="article[keywords]" id="articleKeywords" value='#{ article.keywordsString }' maxlength="125" required placeholder="Les mots clé de l'article, separés par des virgules")
                 
             div(class="form-group")
                 label(for="articleSmallImage") Petite image
-                input(type='url' class="form-control" name="article[smallImage]" id="articleSmallImage" value='#{ article.smallImage }' maxlength="250" placeholder="Le lien de l'image de peite taille")
+                input(type='url' class="form-control" name="article[smallImage]" id="articleSmallImage" value='#{ article.smallImage }' maxlength="250" placeholder="Le lien de l'image de petite taille")
                 
             div(class="form-group")
                 label(for="articleLargeImage") Grande image

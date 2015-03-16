@@ -12,8 +12,8 @@ var User = require('../models/user');
 
 /* registration page. */
 router.route('/register')
-      .get(function (req, res) {
-            captcha.api('get_html', function(err, html) {
+      .get((req, res) => {
+            captcha.api('get_html', (err, html) => {
                 var usr = { 
                     username: '',
                     name: { first: '', last: ''},
@@ -23,18 +23,18 @@ router.route('/register')
                 res.render('account/register', { user:usr, pageTitle: 'Inscription', captcha: html });
             });
       })
-      .post(function (req, res) {   
+      .post((req, res) => {   
             var usr = req.body.user;
-            var renderView = function (errMsg) {
+            var renderView = (errMsg) => {
                 errMsg = errMsg || 'Une erreur est survenue lors du traitement de votre requête. Veuillez reéssayer.';
-                captcha.api('get_html', function(err, html) {
+                captcha.api('get_html', (err, html) => {
                     res.render('account/register', { user: usr, pageTitle: 'Inscription', errorMessage: errMsg, captcha: html });    
                 });
             };      
             if (usr.password !== usr.passwordConfirmation) {
                 return renderView('Les deux mots de passe fournis ne sont pas pareil.');
             }
-            captcha.api('check', {sckey: req.body.sckey, scvalue: req.body.scvalue}, function(err, response) {
+            captcha.api('check', {sckey: req.body.sckey, scvalue: req.body.scvalue}, (err, response) => {
                 if (err) {
                     util.log(err);
                     return renderView();
@@ -52,14 +52,14 @@ router.route('/register')
                     dateOfBirth: usr.dateOfBirth,
                     email: usr.email
                 });     
-                security.pbkdf2(usr.password, function (err, key, salt) {             
+                security.pbkdf2(usr.password, (err, key, salt) => {             
                     if (err) {
                         util.log(err);
                         return renderView();
                     }
                     user.password = key;
                     user.passwordSalt = salt;
-                    user.save(function (err, user) {
+                    user.save((err, user) => {
                         if (err) {
                             return res.send(err);   
                         }
@@ -72,18 +72,18 @@ router.route('/register')
 
 /* login page. */
 router.route('/login')
-      .get(function (req, res) {
+      .get((req, res) => {
             var usr = { email: '' };
             res.render('account/login', { user: usr, pageTitle: 'Connexion', returnUrl: req.query.returnUrl });
       })
-      .post(function (req, res) {
+      .post((req, res) => {
             var usr = req.body.user;
-            var renderView = function (errMsg) {
+            var renderView = (errMsg) => {
                 delete req.session.user;
                 errMsg = errMsg || 'Une erreur est survenue lors du traitement de votre requête. Veuillez reéssayer.';
                 res.render('account/login', { user: usr, pageTitle: 'Connexion', returnUrl: req.body.returnUrl,  errorMessage: errMsg });   
             };      
-            User.findOne({ email: usr.email }, function (err, user) {
+            User.findOne({ email: usr.email }, (err, user) => {
                 if (err) {
                     return renderView();   
                 }
@@ -91,7 +91,7 @@ router.route('/login')
                 if (!user) {
                     return renderView(incorrectCredentialsMessage);   
                 }
-                security.verifyPbkdf2(usr.password, user.passwordSalt, user.password, function (err, success) {
+                security.verifyPbkdf2(usr.password, user.passwordSalt, user.password, (err, success) => {
                     if (err) {
                         return renderView();
                     }    
@@ -108,7 +108,7 @@ router.route('/login')
       });
 
 /* login page. */
-router.get('/logout', function (req, res) {
+router.get('/logout', (req, res) => {
     delete req.session.user;
     return res.redirect('/');
 });

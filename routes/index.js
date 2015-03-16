@@ -6,10 +6,13 @@ var User = require('../models/user');
 var Author = require('../models/author');
 
 /* GET home page. */
-router.get('/', function(req, res) {
-    Article.find().sort({ lastEditedDate: -1 }).limit(9).exec(function(err, articles) {
+router.get('/', (req, res, next) => {
+    Article.find()
+           .sort({ lastEditedDate: -1 })
+           .limit(9)
+           .exec((err, articles) => {
         if (err) {
-            util.log(err);
+            return next(err);
         }
         var leadArticle = articles[0];
         var articlesList = articles.slice(1);
@@ -18,23 +21,26 @@ router.get('/', function(req, res) {
 });
 
 /* GET article page. */
-router.get('/article/:articleId', function(req, res) {
-    Article.findById(req.params.articleId, function(err, article) {
+router.get('/article/:articleId', (req, res) => {
+    Article.findById(req.params.articleId, (err, article) => {
         if (err) {
-            return res.json(err);
+            return next(err);
         }
-        Article.find({ _id: { $ne: article.id } }).sort({ lastEditedDate: -1 }).limit(2).exec(function(err, relatedArticles) {
+        Article.find({ _id: { $ne: article.id } })
+               .sort({ lastEditedDate: -1 })
+               .limit(2)
+               .exec((err, relatedArticles) => {
             if (err) {
-                util.log(err);
+                return next(err);
             }
             var authorIds = article.authors;
             if(article.lastEditors) {
                 authorIds = authorIds.concat(article.lastEditors);
             }
-            Author.find({ userId: { $in: authorIds } }, function (err, authors) {
+            Author.find({ userId: { $in: authorIds } }, (err, authors) => {
                 if (err) {
-                    return res.json(err);
-                }       
+                    return next(err);
+                }      
                 res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, pageTitle: 'Article' });
             })
         });

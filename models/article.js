@@ -4,12 +4,13 @@ var Schema = mongoose.Schema;
 
 var articleSchema = new Schema({
     
-    title: { type: String, required: true, max: 125 },
-    summary: { type: String, required: true, max: 800 },
-    content: { type: String, required: true, max: 6400 },
-    smallImage: { type: String, max: 250 },
-    largeImage: { type: String, max: 250 },
-    video: { type: String, max: 250 },
+    title: { type: String, required: true, maxlength: 125 },
+    keywords: [{ type: String, maxlength: 125 }],
+    summary: { type: String, required: true, maxlength: 800 },
+    content: { type: String, required: true, maxlength: 6400 },
+    smallImage: { type: String, maxlength: 250 },
+    largeImage: { type: String, maxlength: 250 },
+    video: { type: String, maxlength: 250 },
     commentsAllowed: { type: Boolean, default: true },
     reviewed: { type: Boolean, default: false },
     reviewedBy: { type: mongoose.Schema.Types.ObjectId },
@@ -24,6 +25,13 @@ var articleSchema = new Schema({
         up: { type: Number, default: 0 },
         down: { type: Number, default: 0 }
     }     
+});
+
+articleSchema.virtual('keywordsString').get(function () {
+    if (this.keywords) {
+        return this.keywords.join(', ');
+    }
+    return '';
 });
 
 articleSchema.virtual('allContent').get(function () {
