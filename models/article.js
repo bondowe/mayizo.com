@@ -27,14 +27,14 @@ var articleSchema = new Schema({
     }     
 });
 
-articleSchema.virtual('keywordsString').get(function () {
+articleSchema.virtual('keywordsString').get(() => {
     if (this.keywords) {
         return this.keywords.join(', ');
     }
     return '';
 });
 
-articleSchema.virtual('allContent').get(function () {
+articleSchema.virtual('allContent').get(() => {
   return this.summary + ' ' + this.content;
 });
 

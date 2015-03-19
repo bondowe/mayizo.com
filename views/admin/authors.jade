@@ -1,0 +1,48 @@
+extends ../layout
+
+block content
+
+    div(class='container') 
+        h1(class='page-heading') Auteurs
+        hr
+        table(id='authorsTable')
+            thead
+                tr
+                    th Pseudo
+                    th Revue obligatoire
+                    th Reviewer
+                    th Admin
+                    th Actif du
+                    th Actif jusqu'au
+                    th
+            tbody
+                each author in authors
+                    tr
+                        td= author.pseudo
+                        td
+                            span(class={ 'glyphicon glyphicon-ok': author.reviewRequired, 'glyphicon glyphicon-remove': ! author.reviewRequired })
+                        td
+                            span(class={ 'glyphicon glyphicon-ok': author.isReviewer, 'glyphicon glyphicon-remove': ! author.isReviewer })
+                        td
+                            span(class={ 'glyphicon glyphicon-ok': author.isAdmin, 'glyphicon glyphicon-remove': ! author.isAdmin })
+                        td= author.activeFrom.toFormat('DD MM YYYY HH24:MI:SS')
+                        td= author.activeUntil ? author.activeUntil.toFormat('DD MM YYYY HH24:MI:SS') : ''
+                        td
+                            a(class='btn' href='/admin/edit-author/#{ author.id }') Modifier
+                            a(class='btn' href='/admin/view-user/#{ author.userId }') Utilisateur
+            tfoot
+            
+        a(class='btn btn-default' href='/admin/new-author') 
+            span(class='glyphicon glyphicon-plus')  
+            span Ajouter un auteur
+            
+block append moreStylesheets
+    link(href='/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css', rel='stylesheet')
+    link(href='/vendor/datatables/media/css/jquery.dataTables.min.css', rel='stylesheet')
+
+block append moreScripts
+    script(src='/vendor/datatables/media/js/jquery.dataTables.min.js')
+    script(src='/javascripts/authors-module.js')
+
+        
+            

@@ -113,4 +113,38 @@ router.get('/preview-article/:articleId', (req, res, next) => {
     });
 });
 
+/* GET authors */
+router.get('/authors', (req, res, next) => {
+    Author.find({}, (err, authors) => {
+        if (err) {
+            return next(err);   
+        }
+        res.render('admin/authors', { authors: authors, pageTitle: 'Auteurs' });
+    });
+});
+
+/* edit article */
+router.route('/edit-author/:authorId')
+      .get(function(req, res, next) {
+            Author.findById(req.params.authorId, (err, author) => {
+                if (err) {
+                    return next(err);   
+                }
+                res.render('admin/edit-author', { author: author, pageTitle: 'Modifier l\'auteur' });
+            });
+      })
+      .post((req, res, next) => {   
+            var authr = req.body.author;
+            var upd = {
+                pseudo: authr.pseudo
+                
+            };
+            Author.findOneAndUpdate({ _id: req.params.authorId }, upd, { new: true }, (err, author) => {
+                if (err) {
+                    return next(err);   
+                }
+                res.redirect('/admin/authors');
+            });
+      });
+
 module.exports = router;
