@@ -56,10 +56,11 @@ a, a:hover, a:active, a:visited {
 
 .navbar-brand {
     font-family: 'Pacifico';
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 32px;
     display: block;
-    color: white !important;
+    color: white;
+    padding: 5px 15px;
+    text-shadow: none;
 }
 
 /* Wrapper for page content to push down footer */
