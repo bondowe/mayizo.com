@@ -1,8 +1,8 @@
-extends ../layout
+extends ../../layout
 
 block content
 
-    div(class='container') 
+    div(class='container')
         h1(class='page-heading') Articles
         hr
         table(id='articlesTable')
@@ -20,19 +20,19 @@ block content
                         td= article.createdDate.toFormat('DD MM YYYY HH24:MI:SS')
                         td= article.title
                         td
-                            span(class={ 'glyphicon glyphicon-ok': article.live, 'glyphicon glyphicon-remove': ! article.live })          
+                            span(class={ 'glyphicon glyphicon-ok': article.live, 'glyphicon glyphicon-remove': ! article.live })
                         td
                             span(class={ 'glyphicon glyphicon-ok': article.commentsAllowed, 'glyphicon glyphicon-remove': ! article.commentsAllowed })
                         td= article.lastEditedDate ? article.lastEditedDate.toFormat('DD MM YYYY HH24:MI:SS') : ''
                         td
-                            a(class='btn' href='/admin/edit-article/#{ article.id }') Modifier
-                            a(class='btn' href='/admin/preview-article/#{ article.id }') Afficher
+                            a(class='btn' href='/admin/articles/edit/#{ article.id }') Modifier
+                            a(class='btn' href='/admin/articles/preview/#{ article.id }') Afficher
             tfoot
-            
-        a(class='btn btn-default' href='/admin/new-article') 
-            span(class='glyphicon glyphicon-plus')  
+
+        a(class='btn btn-default' href='/admin/articles/add')
+            span(class='glyphicon glyphicon-plus')
             span Ajouter un article
-            
+
 block append moreStylesheets
     link(href='/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css', rel='stylesheet')
     link(href='/vendor/datatables/media/css/jquery.dataTables.min.css', rel='stylesheet')
@@ -41,5 +41,4 @@ block append moreScripts
     script(src='/vendor/datatables/media/js/jquery.dataTables.min.js')
     script(src='/javascripts/articles-module.js')
 
-        
-            
+

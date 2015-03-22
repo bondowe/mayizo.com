@@ -1,37 +1,37 @@
 var express = require('express');
 var router = express.Router();
-var config = require('../config');
+var config = require('../../config');
 var util = require('util');
-var Article = require('../models/article');
-var User = require('../models/user');
-var Author = require('../models/author');
+var Article = require('../../models/article');
+var Author = require('../../models/author');
 
-var debuglog = util.debuglog('mayizo:admin');
+var debuglog = util.debuglog('mayizo:admin-articles');
 
 /* GET articles list. */
-router.get('/articles', (req, res, next) => {   
+router.get('/list', (req, res, next) => {
     Article.find()
            .sort({createdDate: -1})
            .exec((err, articles) => {
                 if (err) {
-                    return next(err);   
+                    return next(err);
                 }
-                res.render('admin/articles', { articles: articles, pageTitle: 'Articles' });
+                res.render(res.view(), { articles: articles, pageTitle: 'Articles' });
             });
 });
 
 /* new article */
-router.route('/new-article')
+router.route('/add')
       .get((req, res) => {
             var art = {
                 title: '',
+                keywordsString: '',
                 summary: '',
                 content: '',
                 smallImage: '',
                 largeImage: '',
                 video: ''
             };
-           res.render('admin/new-article', {article: art, pageTitle: 'Nouvel article' });
+           res.render(res.view(), {article: art, csrfToken: req.csrfToken(), pageTitle: 'Nouvel article' });
       })
       .post((req, res, next) => {
             var art = req.body.article;
@@ -47,23 +47,23 @@ router.route('/new-article')
             });
             article.save((err, article) => {
                 if (err) {
-                    return next(err);   
+                    return next(err);
                 }
-                res.redirect('/admin/articles');
+                res.redirect('list');
             });
       });
 
 /* edit article */
-router.route('/edit-article/:articleId')
+router.route('/edit/:articleId')
       .get(function(req, res, next) {
             Article.findById(req.params.articleId, (err, article) => {
                 if (err) {
-                    return next(err);   
+                    return next(err);
                 }
-                res.render('admin/edit-article', { article: article, pageTitle: 'Modifier l\'article' });
+                res.render(res.view('..'), { article: article, csrfToken: req.csrfToken(), pageTitle: 'Modifier l\'article' });
             });
       })
-      .post((req, res, next) => {   
+      .post((req, res, next) => {
             var art = req.body.article;
             var upd = {
                 title: art.title,
@@ -76,28 +76,28 @@ router.route('/edit-article/:articleId')
                 live: art.live,
                 commentsAllowed: art.commentsAllowed,
                 lastEditedDate: new Date(),
-                lastEditors: [req.session.user._id]  
+                lastEditors: [req.session.user._id]
             };
             Article.findOneAndUpdate({ _id: req.params.articleId }, upd, { new: true }, (err, article) => {
                 if (err) {
-                    return next(err);   
+                    return next(err);
                 }
-                res.redirect('/admin/articles');
+                res.redirect('../list');
             });
       });
 
 /* GET preview article */
-router.get('/preview-article/:articleId', (req, res, next) => {
+router.get('/preview/:articleId', (req, res, next) => {
     Article.findById(req.params.articleId, (err, article) => {
         if (err) {
-            return next(err);   
+            return next(err);
         }
-        Article.find({ _id: { $ne: article.id } })
+        Article.find({ _id: { $ne: article._id } })
                .sort({ lastEditedDate: -1 })
                .limit(2)
                .exec((err, relatedArticles) => {
             if (err) {
-                return next(err);   
+                return next(err);
             }
             var authorIds = article.authors;
             if(article.lastEditors) {
@@ -105,46 +105,13 @@ router.get('/preview-article/:articleId', (req, res, next) => {
             }
             Author.find({ userId: { $in: authorIds } }, (err, authors) => {
                 if (err) {
-                    return next(err);   
-                }       
+                    return next(err);
+                }
+                debuglog(authors);
                 res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, pageTitle: 'Preview de l\'article' });
             })
         });
     });
 });
-
-/* GET authors */
-router.get('/authors', (req, res, next) => {
-    Author.find({}, (err, authors) => {
-        if (err) {
-            return next(err);   
-        }
-        res.render('admin/authors', { authors: authors, pageTitle: 'Auteurs' });
-    });
-});
-
-/* edit article */
-router.route('/edit-author/:authorId')
-      .get(function(req, res, next) {
-            Author.findById(req.params.authorId, (err, author) => {
-                if (err) {
-                    return next(err);   
-                }
-                res.render('admin/edit-author', { author: author, pageTitle: 'Modifier l\'auteur' });
-            });
-      })
-      .post((req, res, next) => {   
-            var authr = req.body.author;
-            var upd = {
-                pseudo: authr.pseudo
-                
-            };
-            Author.findOneAndUpdate({ _id: req.params.authorId }, upd, { new: true }, (err, author) => {
-                if (err) {
-                    return next(err);   
-                }
-                res.redirect('/admin/authors');
-            });
-      });
 
 module.exports = router;

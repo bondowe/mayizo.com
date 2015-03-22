@@ -5,6 +5,7 @@ block content
     div(class='container center-block main-form small-form') 
 
         form(method="post" action="/account/register" enctype="application/x-www-form-urlencoded")
+            input(type='hidden' name='_csrf' value='#{ csrfToken }')
             
             h1 Inscription
             hr
@@ -26,7 +27,7 @@ block content
             
                 div(class="col-xs-6")
                     label(for="userDateOfBirth") Date de naissance
-                    input(type="date" class="form-control" name="user[dateOfBirth]" id="userDateOfBirth" value="#{ user.dateOfBirth ? user.dateOfBirth.toFormat('YYYY-MM-DD') : '' }" required placeholder="Votre date de naissance")
+                    input(type="date" class="form-control" name="user[dateOfBirth]" id="userDateOfBirth" value="#{ user.dateOfBirth }" required placeholder="Votre date de naissance")
             
                 div(class="col-xs-6")
                     label(for="userGenderFemale") Sexe
@@ -73,4 +74,3 @@ block content
             p(class="help-block") Avez-vous déjà un compte? 
                 a(href="/account/login") Connectez-vous
 
-                

@@ -20,7 +20,7 @@ router.route('/register')
                     dateOfBirth: '',
                     email: ''             
                 };
-                res.render('account/register', { user:usr, pageTitle: 'Inscription', captcha: html });
+                res.render('account/register', { user:usr, csrfToken: req.csrfToken(), pageTitle: 'Inscription', captcha: html });
             });
       })
       .post((req, res) => {   
@@ -28,7 +28,7 @@ router.route('/register')
             var renderView = (errMsg) => {
                 errMsg = errMsg || 'Une erreur est survenue lors du traitement de votre requête. Veuillez reéssayer.';
                 captcha.api('get_html', (err, html) => {
-                    res.render('account/register', { user: usr, pageTitle: 'Inscription', errorMessage: errMsg, captcha: html });    
+                    res.render('account/register', { user: usr, csrfToken: req.csrfToken(), pageTitle: 'Inscription', errorMessage: errMsg, captcha: html });
                 });
             };      
             if (usr.password !== usr.passwordConfirmation) {
@@ -74,14 +74,14 @@ router.route('/register')
 router.route('/login')
       .get((req, res) => {
             var usr = { email: '' };
-            res.render('account/login', { user: usr, pageTitle: 'Connexion', returnUrl: req.query.returnUrl });
+            res.render('account/login', { user: usr, csrfToken: req.csrfToken(), pageTitle: 'Connexion', returnUrl: req.query.returnUrl });
       })
       .post((req, res) => {
             var usr = req.body.user;
             var renderView = (errMsg) => {
                 delete req.session.user;
                 errMsg = errMsg || 'Une erreur est survenue lors du traitement de votre requête. Veuillez reéssayer.';
-                res.render('account/login', { user: usr, pageTitle: 'Connexion', returnUrl: req.body.returnUrl,  errorMessage: errMsg });   
+                res.render('account/login', { user: usr, csrfToken: req.csrfToken(), pageTitle: 'Connexion', returnUrl: req.body.returnUrl, errorMessage: errMsg });
             };      
             User.findOne({ email: usr.email }, (err, user) => {
                 if (err) {

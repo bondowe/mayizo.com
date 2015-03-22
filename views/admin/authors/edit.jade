@@ -1,13 +1,14 @@
-extends ../layout
+extends ../../layout
 
 block content
-     
-    div(class='container center-block main-form small-form') 
 
-        form(method='post' action='/admin/edit-author/#{ author.id }' enctype='application/x-www-form-urlencoded')
-            
-            h1 Modifier l'auteur  
-                            
+    div(class='container center-block main-form small-form')
+
+        form(method='post' action='/admin/authors/edit/#{ author.id }' enctype='application/x-www-form-urlencoded')
+            input(type='hidden' name='_csrf' value='#{ csrfToken }')
+
+            h1 Modifier l'auteur
+
             div(class='form-group')
                 label(for='authorPseudo') Pseudo
                 input(class='form-control' name='author[pseudo]' id='authorPseudo' value='#{ author.pseudo }' maxlength='30' required placeholder="Le pseudo de l'auteur")
@@ -15,7 +16,7 @@ block content
             div(class='row form-row')
                 div(class='col-xs-6 choice-inline')
                     label(class='inline')
-                        input(type='checkbox' name='author[reviewRequired]' id='authorReviewRequired' value='true' checked=author.reviewRequired) 
+                        input(type='checkbox' name='author[reviewRequired]' id='authorReviewRequired' value='true' checked=author.reviewRequired)
                         | Revue obligatoire
                     label(class='inline')
                         input(type='checkbox' name='author[isReviewer]' id='authorIsReviewer' value='true' checked=author.isReviewer)
@@ -23,22 +24,21 @@ block content
                     label(class='inline')
                         input(type='checkbox' name='author[isAdmin]' id='authorIsAdmin' value='true' checked=author.isAdmin)
                         | Admin
-                
+
             div(class='form-group')
                 label(for='authorActiveFrom') Actif du
                 input(type='date' class='form-control' name='author[activeFrom]' id='authorActiveFrom' value="#{ author.activeFrom.toFormat('YYYY-MM-DD') }" required placeholder='Actif à partir du')
-           
+
             div(class='form-group')
                 label(for='authorActiveUntil') Actif jusqu'au
                 input(type='date' class='form-control' name='author[activeUntil]' id='authorActiveUntil' value="#{ author.activeUntil ? author.activeUntil.toFormat('YYYY-MM-DD') : '' }" placeholder="Actif jusqu'au")
-                
+
             div(class='form-action')
-                button(type='submit' class='btn btn-default') 
-                    span(class='glyphicon glyphicon-floppy-disk')  
+                button(type='submit' class='btn btn-default')
+                    span(class='glyphicon glyphicon-floppy-disk')
                     span Sauvegarder
-                a(class='btn btn-default' href='/admin/authors') 
-                    span(class='glyphicon glyphicon-remove')  
+                a(class='btn btn-default' href='/admin/authors/list')
+                    span(class='glyphicon glyphicon-remove')
                     span Annuler
 
-        
-        
+

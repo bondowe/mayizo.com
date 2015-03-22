@@ -5,6 +5,7 @@ block content
     div(class='container center-block main-form small-form') 
 
         form(method="post" action="/account/login" enctype="application/x-www-form-urlencoded")
+            input(type='hidden' name='_csrf' value='#{ csrfToken }')
             
             h1 Connexion
             hr
@@ -33,4 +34,3 @@ block content
             p(class="help-block") Vous n'avez pas de compte? 
                 a(href="/account/register") Enregistrez-vous
 
-                

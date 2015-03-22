@@ -1,51 +1,51 @@
-extends ../layout
+extends ../../layout
 
 block content
-     
-    div(class='container center-block main-form large-form') 
 
-        form(method="post" action="/admin/new-article" enctype="application/x-www-form-urlencoded")
-            
-            h1 Nouvel Article      
-                            
+    div(class='container center-block main-form large-form')
+
+        form(method="post" action="/admin/articles/add" enctype="application/x-www-form-urlencoded")
+            input(type='hidden' name='_csrf' value='#{ csrfToken }')
+
+            h1 Nouvel Article
+
             div(class="form-group")
                 label(for="articleTitle") Titre
                 input(class="form-control" name="article[title]" id="articleTitle" value='#{ article.title }' maxlength="125" required placeholder="Le titre de l'article")
-                                    
+
             div(class="form-group")
                 label(for="articleKeywords") Mots clé
                 input(class="form-control" name="article[keywords]" id="articleKeywords" value='#{ article.keywordsString }' maxlength="125" required placeholder="Les mots clé de l'article, separés par des virgules")
-                
+
             div(class="form-group")
                 label(for="articleSmallImage") Petite image
                 input(type='url' class="form-control" name="article[smallImage]" id="articleSmallImage" value='#{ article.smallImage }' maxlength="250" placeholder="Le lien de l'image de petite taille")
-                
+
             div(class="form-group")
                 label(for="articleLargeImage") Grande image
                 input(type='url' class="form-control" name="article[largeImage]" id="articleLargeImage" value='#{ article.largeImage }' maxlength="250" placeholder="Le lien de l'image de grande taille")
-                
+
             div(class="form-group")
                 label(for="articleVideo") Video
                 input(type='url' class="form-control" name="article[video]" id="articleVideo" value='#{ article.video }' maxlength="250" placeholder="Le lien de la vidéo")
-                
+
             div(class="form-group")
                 label(for="articleSummary") Sommaire
                 textarea(class="form-control autosize" rows="3" name="article[summary]" id="articleSummary" value='#{ article.summary }' maxlength="800" required placeholder="Le sommaire de l'article")
-                
+
             div(class="form-group")
                 label(for="articleContent") Contenu
                 textarea(class="form-control autosize" rows="8" name="article[content]" id="articleContent" value='#{ article.content }' maxlength="6400" required placeholder="Le contenu de l'article")
-                    
+
             div(class="form-action")
-                button(type="submit" class="btn btn-default") 
-                    span(class='glyphicon glyphicon-floppy-disk')  
+                button(type="submit" class="btn btn-default")
+                    span(class='glyphicon glyphicon-floppy-disk')
                     span Sauvegarder
-                a(class='btn btn-default' href='/admin/articles') 
-                    span(class='glyphicon glyphicon-remove')  
+                a(class='btn btn-default' href='/admin/articles/list')
+                    span(class='glyphicon glyphicon-remove')
                     span Annuler
 
     block append moreScripts
         script(src='/vendor/autosize/dest/autosize.min.js')
         script(src='/javascripts/textarea-autosize.js')
-        
-        
+
