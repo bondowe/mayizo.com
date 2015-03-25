@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "istanbul cover _mocha -- \"test/**/*.js\" -R spec",
-    "ci-test": "istanbul cover _mocha -- \"test/**/*.js\" -R spec > test.tap && istanbul report clover",
+    "test": "istanbul cover _mocha -- \"test/**/*.js\" -R tap",
+    "ci-test": "istanbul cover _mocha -- \"test/**/*.js\" -R tap > test.tap && istanbul report clover",
     "dev": "NODE_DEBUG=mayizo:* NODE_ENV=development nodemon --harmony ./bin/www",
     "prod": "NODE_ENV=production pm2 start ./bin/www --name mayizo.com -i 0 --node-args=\"--harmony\""
   },
