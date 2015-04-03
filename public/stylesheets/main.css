@@ -66,8 +66,7 @@ a, a:hover, a:active, a:visited {
   background-color: #333333; }
 
 #disqus_thread {
-  margin-top: 40px;
-  width: 850px; }
+  margin-top: 40px; }
 
 .headline-media {
   float: left;
@@ -104,19 +103,22 @@ a, a:hover, a:active, a:visited {
 .article-details .comment-icon {
   margin: auto 3px auto 5px; }
 
+@media all and (max-width: 1150px) {
+  .article-aside {
+    display: none; } }
+
 .article-aside {
   float: right;
-  width: 250px;
+  width: 240px;
   margin: 10px;
-  padding: 15px;
+  padding: 10px;
   color: #c6c6c6;
   background-color: #333333;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   border-radius: 10px; }
-  .article-aside h3:not(:first-child) {
-    border-top: 1px solid;
+  .article-aside h3:not(:first-child), .article-aside h3:not(::first-child) {
     padding-top: 20px; }
   .article-aside a {
     color: #c6c6c6; }

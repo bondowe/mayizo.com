@@ -17,17 +17,20 @@ router.get('/', (req, res, next) => {
         }
         let leadArticle = articles[0];
         let articlesList = articles.slice(1);
+        res.cacheFor(180);
         res.render('index', { leadArticle: leadArticle, articlesList: articlesList, pageTitle: 'Acceuil' });
     });
 });
 
 /* GET about us page. */
 router.get('/about-us', (req, res, next) => {
+    res.cacheFor(180);
     res.render(res.view(), { pageTitle: 'Qui somme-nous?' });
 });
 
 /* GET about us page. */
 router.get('/contact-us', (req, res, next) => {
+    res.cacheFor(180);
     res.render(res.view(), { pageTitle: 'Contact' });
 });
 
@@ -51,8 +54,9 @@ router.get('/article/:articleId', (req, res) => {
             Author.find({ userId: { $in: authorIds } }, (err, authors) => {
                 if (err) {
                     return next(err);
-                }      
-                res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, /*requestUrl: req.protocol + '://' + req.get('host') + req.originalUrl,*/ pageTitle: 'Article' });
+                } 
+                res.cacheFor(180);
+                res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, pageTitle: 'Article' });
             })
         });
     });

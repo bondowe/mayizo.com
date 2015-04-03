@@ -1,7 +1,7 @@
 var config = {
     
     db: {
-        uri: 'mongodb://localhost/mayizoCom'
+        uri: 'mongodb://localhost/mayizoCom?poolSize=10'
     }  
 };
 

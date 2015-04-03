@@ -1,34 +1,36 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon'); 
-var util = require('util');
-var session = require('express-session');
-var connectMongo = require('connect-mongo');
-var bodyParser = require('body-parser');
-var sassMiddleware = require('node-sass-middleware');
-var helmet = require('helmet');
-var requestLogger = require('morgan');
-var config = require('./config');
-var mongoose = require('mongoose');
-var markdown= require('./util/markdown');
-var csrf = require('csurf');
-var dateUtils = require('date-utils');
+"use strict"
+let express = require('express');
+let path = require('path');
+let favicon = require('serve-favicon'); 
+let util = require('util');
+let compression = require('compression');
+let session = require('express-session');
+let connectMongo = require('connect-mongo');
+let bodyParser = require('body-parser');
+let sassMiddleware = require('node-sass-middleware');
+let helmet = require('helmet');
+let requestLogger = require('morgan');
+let config = require('./config');
+let mongoose = require('mongoose');
+let markdown= require('./util/markdown');
+let csrf = require('csurf');
+let dateUtils = require('date-utils');
 
-var debuglog = util.debuglog('mayizo:app');
+let debuglog = util.debuglog('mayizo:app');
 
-var routes = require('./routes/index');
-var account = require('./routes/account');
-var admin = require('./routes/admin');
+let routes = require('./routes/index');
+let account = require('./routes/account');
+let admin = require('./routes/admin');
 
 mongoose.connect(config.db.uri, config.db.options);
 
-var db = mongoose.connection;
+let db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', (callback) => {
   util.log('Mongo database connection opened: ' + config.db.uri);
 });
-var app = express();
+let app = express();
 if (app.get('env') === 'production') {
     app.enable('trust proxy');
 }
@@ -38,6 +40,7 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(compression());
 app.use(requestLogger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -58,7 +61,7 @@ app.use(helmet.csp({
 app.use(helmet.xssFilter());
 app.use(helmet.xframe());
 app.use(helmet.hidePoweredBy({ setTo: 'Electricity' }));
-var MongoStore = connectMongo(session);
+let MongoStore = connectMongo(session);
 app.use(session({
     name: 'mayizo.com',
     secret: '5!8523Q45FGHFKUhtki23"£4HLhpo' ,
@@ -86,8 +89,13 @@ app.use((req, res, next) => {
         res.locals.isAuthenticated = true;
         res.locals.user = req.session.user;
     }
+    res.cacheFor = (seconds) => {
+        if (app.get('env') === 'production') {
+            res.set('Cache-Control', 'public, max-age=' + seconds);
+        }
+    };
     res.view = (suffix) =>  {
-        var view = (req.baseUrl + req.path).substring(1);
+        let view = (req.baseUrl + req.path).substring(1);
         if (suffix) {
             view = path.join(view, suffix);
         }
@@ -96,14 +104,14 @@ app.use((req, res, next) => {
     res.locals.markdown = markdown;
     next();
 });
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: 180 }));
 app.use('/', routes);
 app.use('/account', account);
 app.use('/admin', mustAuthenticate, admin);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-    var err = new Error('Not Found');
+    let err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
