@@ -5,7 +5,7 @@
   "scripts": {
     "test": "istanbul cover _mocha -- \"test/**/*.js\" -R tap",
     "ci-test": "istanbul cover _mocha -- \"test/**/*.js\" -R tap > test.tap && istanbul report clover",
-    "dev": "NODE_DEBUG=mayizo:* NODE_ENV=development nodemon --harmony ./bin/www",
+    "dev": "DEBUG=mayizo:* NODE_DEBUG=mayizo:* NODE_ENV=development nodemon --debug --harmony ./bin/www",
     "prod": "NODE_ENV=production pm2 start ./bin/www --name mayizo.com -i 0 --node-args=\"--harmony\""
   },
   "dependencies": {
@@ -20,7 +20,7 @@
     "jade": "^1.9.1",
     "marked": "^0.3.3",
     "merge-deep": "^1.0.1",
-    "mongoose": "^3.8.23",
+    "mongoose": "^4.0.0",
     "morgan": "^1.5.1",
     "node-sass-middleware": "^0.5.0",
     "sanitize-html": "^1.6.1",

@@ -1,0 +1,39 @@
+extends ../../layout
+
+block content
+
+    div(class='container')
+        h1(class='page-heading') Utilisateurs
+        hr
+        table(id='usersTable')
+            thead
+                tr
+                    th Nom d'utilisateur
+                    th Nom complet
+                    th Genre
+                    th Enregistré(e) le
+                    th
+            tbody
+                each user in users
+                    tr
+                        td= user.username
+                        td= user.fullName
+                        td= user.gender
+                        td= user.signUpDate.toFormat('DD MM YYYY HH24:MI:SS')
+                        td
+                            a(class='btn' href='/admin/users/edit/#{ user.id }') Afficher
+            tfoot
+
+        a(class='btn btn-default' href='/admin/users/add-as-author')
+            span(class='glyphicon glyphicon-plus')
+            span Ajouter comme auteur
+
+block append moreStylesheets
+    link(href='/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css', rel='stylesheet')
+    link(href='/vendor/datatables/media/css/jquery.dataTables.min.css', rel='stylesheet')
+
+block append moreScripts
+    script(src='/vendor/datatables/media/js/jquery.dataTables.min.js')
+    script(src='/javascripts/users-module.js')
+
+

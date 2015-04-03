@@ -1,20 +1,21 @@
-var config = require('../config');
-var security = require('../util/security');
-var crypto = require('crypto');
-var util = require('util');
-var express = require('express');
-var router = express.Router();
+"use strict"
+let config = require('../config');
+let security = require('../util/security');
+let crypto = require('crypto');
+let util = require('util');
+let express = require('express');
+let router = express.Router();
 
-var sweetcaptcha = new require('sweetcaptcha');
-var captcha = sweetcaptcha(config.sweetcaptcha.appId, config.sweetcaptcha.appKey, config.sweetcaptcha.appSecret);
+let sweetcaptcha = new require('sweetcaptcha');
+let captcha = sweetcaptcha(config.sweetcaptcha.appId, config.sweetcaptcha.appKey, config.sweetcaptcha.appSecret);
 
-var User = require('../models/user');
+let User = require('../models/user');
 
 /* registration page. */
 router.route('/register')
       .get((req, res) => {
             captcha.api('get_html', (err, html) => {
-                var usr = { 
+                let usr = { 
                     username: '',
                     name: { first: '', last: ''},
                     dateOfBirth: '',
@@ -24,8 +25,8 @@ router.route('/register')
             });
       })
       .post((req, res) => {   
-            var usr = req.body.user;
-            var renderView = (errMsg) => {
+            let usr = req.body.user;
+            let renderView = (errMsg) => {
                 errMsg = errMsg || 'Une erreur est survenue lors du traitement de votre requête. Veuillez reéssayer.';
                 captcha.api('get_html', (err, html) => {
                     res.render('account/register', { user: usr, csrfToken: req.csrfToken(), pageTitle: 'Inscription', errorMessage: errMsg, captcha: html });
@@ -42,7 +43,7 @@ router.route('/register')
                 if (response !== 'true') {
                     return renderView ('Êtes-vous humain? Veuillez le confirmer au bas du formulaire.');
                 }    
-                var user = new User({
+                let user = new User({
                     username: usr.username,
                     name: {
                         first: usr.name.first,
@@ -73,12 +74,12 @@ router.route('/register')
 /* login page. */
 router.route('/login')
       .get((req, res) => {
-            var usr = { email: '' };
+            let usr = { email: '' };
             res.render('account/login', { user: usr, csrfToken: req.csrfToken(), pageTitle: 'Connexion', returnUrl: req.query.returnUrl });
       })
       .post((req, res) => {
-            var usr = req.body.user;
-            var renderView = (errMsg) => {
+            let usr = req.body.user;
+            let renderView = (errMsg) => {
                 delete req.session.user;
                 errMsg = errMsg || 'Une erreur est survenue lors du traitement de votre requête. Veuillez reéssayer.';
                 res.render('account/login', { user: usr, csrfToken: req.csrfToken(), pageTitle: 'Connexion', returnUrl: req.body.returnUrl, errorMessage: errMsg });
@@ -87,7 +88,7 @@ router.route('/login')
                 if (err) {
                     return renderView();   
                 }
-                var incorrectCredentialsMessage = 'Email ou mot de passe incorrect.';
+                let incorrectCredentialsMessage = 'Email ou mot de passe incorrect.';
                 if (!user) {
                     return renderView(incorrectCredentialsMessage);   
                 }
@@ -99,7 +100,7 @@ router.route('/login')
                         return renderView (incorrectCredentialsMessage);
                     }
                     req.session.user = user;         
-                    var returnUrl = (req.body.returnUrl && req.body.returnUrl != 'undefined')
+                    let returnUrl = (req.body.returnUrl && req.body.returnUrl != 'undefined')
                                 ? req.body.returnUrl 
                                 : '/';    
                     res.redirect(returnUrl);

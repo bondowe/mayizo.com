@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var util = require('util');
-var Article = require('../models/article');
-var User = require('../models/user');
-var Author = require('../models/author');
+"use strict"
+let express = require('express');
+let router = express.Router();
+let util = require('util');
+let Article = require('../models/article');
+let User = require('../models/user');
+let Author = require('../models/author');
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -14,8 +15,8 @@ router.get('/', (req, res, next) => {
         if (err) {
             return next(err);
         }
-        var leadArticle = articles[0];
-        var articlesList = articles.slice(1);
+        let leadArticle = articles[0];
+        let articlesList = articles.slice(1);
         res.render('index', { leadArticle: leadArticle, articlesList: articlesList, pageTitle: 'Acceuil' });
     });
 });
@@ -33,7 +34,7 @@ router.get('/article/:articleId', (req, res) => {
             if (err) {
                 return next(err);
             }
-            var authorIds = article.authors;
+            let authorIds = article.authors;
             if(article.lastEditors) {
                 authorIds = authorIds.concat(article.lastEditors);
             }

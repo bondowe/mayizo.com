@@ -24,6 +24,14 @@ var userSchema = new Schema({
     bannedBy: mongoose.Schema.Types.ObjectId
 });
 
+
+userSchema.virtual('fullName').get(() => {
+  return (this.title ? this.title + ' ' : '') 
+        + this.name.first + ' '
+        + (this.name.middle ? this.name.middle + ' ' : '') 
+        + this.name.last;
+});
+
 var User = mongoose.model('User', userSchema);
 
 module.exports = User;
