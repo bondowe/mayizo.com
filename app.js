@@ -28,9 +28,10 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', (callback) => {
   util.log('Mongo database connection opened: ' + config.db.uri);
 });
-
 var app = express();
-
+if (app.get('env') === 'production') {
+    app.enable('trust proxy');
+}
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -47,7 +48,7 @@ app.use(helmet.csp({
       'mayizocom.disqus.com', '*.disquscdn.com', '*.jquery.com', '*.sweetcaptcha.com'
   ],
   styleSrc: ["'self'", "'unsafe-inline'", '*.googleapis.com', '*.bootstrapcdn.com'],
-  imgSrc: ["'self'", '*.youtube.com', 'sweetcaptcha.s3.amazonaws.com'],
+  imgSrc: ["'self'", '*.youtube.com', 'sweetcaptcha.s3.amazonaws.com', 'i.ytimg.com', 'data:'],
   connectSrc: ["'self'"],
   fontSrc: ["'self'", '*.gstatic.com', '*.bootstrapcdn.com'],
   objectSrc: ["'self'", '*.youtube.com'],

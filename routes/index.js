@@ -52,7 +52,7 @@ router.get('/article/:articleId', (req, res) => {
                 if (err) {
                     return next(err);
                 }      
-                res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, pageTitle: 'Article' });
+                res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, /*requestUrl: req.protocol + '://' + req.get('host') + req.originalUrl,*/ pageTitle: 'Article' });
             })
         });
     });
