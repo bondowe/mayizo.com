@@ -21,6 +21,16 @@ router.get('/', (req, res, next) => {
     });
 });
 
+/* GET about us page. */
+router.get('/about-us', (req, res, next) => {
+    res.render(res.view(), { pageTitle: 'Qui somme-nous?' });
+});
+
+/* GET about us page. */
+router.get('/contact-us', (req, res, next) => {
+    res.render(res.view(), { pageTitle: 'Contact' });
+});
+
 /* GET article page. */
 router.get('/article/:articleId', (req, res) => {
     Article.findById(req.params.articleId, (err, article) => {

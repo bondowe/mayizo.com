@@ -7,7 +7,7 @@ body {
   padding-top: 50px;
   padding-bottom: 20px; }
 
-h2, h3 {
+*.text-shadow, .about-us p:first-letter, .about-us p::first-letter, h2, h3 {
   text-shadow: 2px 2px 2px rgba(150, 150, 150, 0.8); }
 
 h1 {
@@ -123,7 +123,7 @@ a, a:hover, a:active, a:visited {
     .article-aside a img {
       width: 220px; }
 
-.main-form {
+.main-form, .main-content {
   margin-top: 30px; }
 
 .small-form {
@@ -149,3 +149,9 @@ a, a:hover, a:active, a:visited {
   vertical-align: middle;
   margin-right: 5px;
   bottom: 3px; }
+
+.about-us p:first-letter, .about-us p::first-letter {
+  font-size: 28px;
+  font-weight: bold; }
+.about-us .site-name {
+  font: 28px bold 'Pacifico'; }
