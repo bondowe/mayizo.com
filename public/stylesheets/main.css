@@ -103,14 +103,8 @@ a, a:hover, a:active, a:visited {
 .article-details .comment-icon {
   margin: auto 3px auto 5px; }
 
-@media all and (max-width: 1150px) {
-  .article-aside {
-    display: none; } }
-
-.article-aside {
-  float: right;
-  width: 240px;
-  margin: 10px;
+.article-related {
+  margin-top: 60px;
   padding: 10px;
   color: #c6c6c6;
   background-color: #333333;
@@ -118,12 +112,14 @@ a, a:hover, a:active, a:visited {
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   border-radius: 10px; }
-  .article-aside h3:not(:first-child), .article-aside h3:not(::first-child) {
-    padding-top: 20px; }
-  .article-aside a {
-    color: #c6c6c6; }
-    .article-aside a img {
-      width: 220px; }
+  .article-related div {
+    display: inline-block;
+    width: 220px;
+    margin-right: 20px; }
+    .article-related div a {
+      color: #c6c6c6; }
+      .article-related div a img {
+        width: 220px; }
 
 .main-form, .main-content {
   margin-top: 30px; }

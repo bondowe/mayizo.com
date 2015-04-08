@@ -1,11 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var config = require('../../config');
-var util = require('util');
-var Article = require('../../models/article');
-var Author = require('../../models/author');
+"use strict"
+let express = require('express');
+let router = express.Router();
+let config = require('../../config');
+let util = require('util');
+let Article = require('../../models/article');
+let Author = require('../../models/author');
 
-var debuglog = util.debuglog('mayizo:admin-articles');
+let debuglog = util.debuglog('mayizo:admin-articles');
 
 /* GET articles list. */
 router.get('/list', (req, res, next) => {
@@ -22,7 +23,7 @@ router.get('/list', (req, res, next) => {
 /* new article */
 router.route('/add')
       .get((req, res) => {
-            var art = {
+            let art = {
                 title: '',
                 keywordsString: '',
                 summary: '',
@@ -34,8 +35,8 @@ router.route('/add')
            res.render(res.view(), {article: art, csrfToken: req.csrfToken(), pageTitle: 'Nouvel article' });
       })
       .post((req, res, next) => {
-            var art = req.body.article;
-            var article = new Article({
+            let art = req.body.article;
+            let article = new Article({
                 title: art.title,
                 keywords: art.keywords.toLowerCase().split(/\s*,\s*/).sort(),
                 summary: art.summary,
@@ -64,8 +65,8 @@ router.route('/edit/:articleId')
             });
       })
       .post((req, res, next) => {
-            var art = req.body.article;
-            var upd = {
+            let art = req.body.article;
+            let upd = {
                 title: art.title,
                 keywords: art.keywords.toLowerCase().split(/\s*,\s*/).sort(),
                 summary: art.summary,
@@ -92,14 +93,14 @@ router.get('/preview/:articleId', (req, res, next) => {
         if (err) {
             return next(err);
         }
-        Article.find({ _id: { $ne: article._id } })
+        Article.find({ _id: { $ne: article._id }, smallImage: /\S+/})
                .sort({ lastEditedDate: -1 })
-               .limit(2)
+               .limit(4)
                .exec((err, relatedArticles) => {
             if (err) {
                 return next(err);
             }
-            var authorIds = article.authors;
+            let authorIds = article.authors;
             if(article.lastEditors) {
                 authorIds = authorIds.concat(article.lastEditors);
             }
@@ -107,8 +108,9 @@ router.get('/preview/:articleId', (req, res, next) => {
                 if (err) {
                     return next(err);
                 }
-                debuglog(authors);
-                res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, pageTitle: 'Preview de l\'article' });
+                let pageDescription = article.allContent.substring(0, 185);
+                let pageKeywords = article.keywordsString;
+                res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, pageTitle: 'Preview de l\'article', pageDescription: pageDescription, pageKeywords: pageKeywords });
             })
         });
     });

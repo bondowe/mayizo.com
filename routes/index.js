@@ -40,9 +40,9 @@ router.get('/article/:articleId', (req, res) => {
         if (err) {
             return next(err);
         }
-        Article.find({ _id: { $ne: article.id } })
+        Article.find({ _id: { $ne: article.id }, smallImage: /\S+/})
                .sort({ lastEditedDate: -1 })
-               .limit(2)
+               .limit(4)
                .exec((err, relatedArticles) => {
             if (err) {
                 return next(err);
@@ -56,7 +56,9 @@ router.get('/article/:articleId', (req, res) => {
                     return next(err);
                 } 
                 res.cacheFor(180);
-                res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, pageTitle: 'Article' });
+                let pageDescription = article.allContent.substring(0, 185);
+                let pageKeywords = article.keywordsString;
+                res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, pageTitle: article.title, pageDescription: pageDescription, pageKeywords: pageKeywords });
             })
         });
     });

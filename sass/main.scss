@@ -145,30 +145,23 @@ a, a:hover, a:active, a:visited {
     }
 }
 
-@media all and (max-width: 1150px) {
-    .article-aside {
-        display: none;
-    }
-}
-
-.article-aside {
-    float: right;
-    width: 240px;
-    margin: 10px;
+.article-related {
+    margin-top: 60px;
     padding: 10px;
     color: $jombotron-color;
     background-color: $jumbotron-background-color;
     @include border-radius(10px);
     
-    h3:not(:first-child), h3:not(::first-child) {
-        padding-top: 20px;
-    }
-    
-    a {
-        color: $jombotron-color;
-        
-        img {
-            width: 220px;   
+    div {
+        display: inline-block;
+        width: 220px;
+        margin-right: 20px;
+        a {
+            color: $jombotron-color;
+
+            img {
+                width: 220px;   
+            }
         }
     }
 }

@@ -25,19 +25,20 @@ block content
                 div(class='article-media')
                     div(class="youtube" id="#{ article.video }" style="width: 560px; height: 315px;")
                     script(src='/javascripts/youtube.js')
-                     
-            div(class='article-aside')
-                each relArticle in relatedArticles
-                    h3 
-                        a(href='/article/#{ relArticle.id }')= relArticle.title
-                    p
-                        if relArticle.smallImage
-                            a(href='/article/#{ relArticle.id }')
-                                img(src='#{ relArticle.smallImage }')
-                        != markdown(relArticle.allContent.substring(0, 185))
                     
             div(class='article-content')
                 != markdown(article.allContent)
+                
+                div(class='article-related')
+                    each relArticle in relatedArticles
+                        div
+                            h3 
+                                a(href='/article/#{ relArticle.id }')= relArticle.title
+                            p
+                                if relArticle.smallImage
+                                    a(href='/article/#{ relArticle.id }')
+                                        img(src='#{ relArticle.smallImage }')
+                                != markdown(relArticle.allContent.substring(0, 185))
             
                 if article.commentsAllowed
                     div(id='disqus_thread')
