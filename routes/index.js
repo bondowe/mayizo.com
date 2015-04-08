@@ -59,7 +59,7 @@ router.get('/article/:articleId', (req, res) => {
                 let pageDescription = article.allContent.substring(0, 185);
                 let pageKeywords = article.keywordsString;
                 let pageAuthors = authors.map(x => x.pseudo).join(',');
-                let pageOgImage = article.largeImage;
+                let pageOgImage = article.largeImage; 
                 res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, pageTitle: article.title, pageDescription: pageDescription, pageKeywords: pageKeywords, pageAuthors: pageAuthors, pageOgImage: pageOgImage });
             })
         });
