@@ -110,7 +110,9 @@ router.get('/preview/:articleId', (req, res, next) => {
                 }
                 let pageDescription = article.allContent.substring(0, 185);
                 let pageKeywords = article.keywordsString;
-                res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, pageTitle: 'Preview de l\'article', pageDescription: pageDescription, pageKeywords: pageKeywords });
+                let pageAuthors = authors.map(x => x.pseudo).join(',');
+                let pageOgImage = article.largeImage;
+                res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, pageTitle: 'Preview de l\'article', pageDescription: pageDescription, pageKeywords: pageKeywords, pageAuthors: pageAuthors, pageOgImage: pageOgImage });
             })
         });
     });
