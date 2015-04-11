@@ -8,7 +8,7 @@ let Author = require('../models/author');
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-    Article.find()
+    Article.find({ live: true })
            .sort({ lastEditedDate: -1 })
            .limit(9)
            .exec((err, articles) => {
@@ -36,11 +36,14 @@ router.get('/contact-us', (req, res, next) => {
 
 /* GET article page. */
 router.get('/article/:articleId', (req, res) => {
-    Article.findById(req.params.articleId, (err, article) => {
+    Article.findOne({ _id: req.params.articleId, live: true }, (err, article) => {
         if (err) {
             return next(err);
         }
-        Article.find({ _id: { $ne: article.id }, smallImage: /\S+/})
+        if (! article) {
+            
+        }
+        Article.find({ _id: { $ne: article._id }, live: true,  smallImage: /\S+/})
                .sort({ lastEditedDate: -1 })
                .limit(4)
                .exec((err, relatedArticles) => {

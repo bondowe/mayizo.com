@@ -11,7 +11,7 @@ let debuglog = util.debuglog('mayizo:admin-articles');
 /* GET articles list. */
 router.get('/list', (req, res, next) => {
     Article.find()
-           .sort({createdDate: -1})
+           .sort({ createdDate: -1 })
            .exec((err, articles) => {
                 if (err) {
                     return next(err);
@@ -89,7 +89,7 @@ router.route('/edit/:articleId')
 
 /* GET preview article */
 router.get('/preview/:articleId', (req, res, next) => {
-    Article.findById(req.params.articleId, (err, article) => {
+    Article.findOne({ _id: req.params.articleId }, (err, article) => {
         if (err) {
             return next(err);
         }
