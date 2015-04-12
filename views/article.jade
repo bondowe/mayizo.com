@@ -38,7 +38,6 @@ block content
                                 if relArticle.smallImage
                                     a(href='/article/#{ relArticle.id }')
                                         img(src='#{ relArticle.smallImage }')
-                                != markdown(relArticle.allContent.substring(0, 185))
             
                 if article.commentsAllowed
                     div(id='disqus_thread')
