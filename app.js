@@ -51,7 +51,7 @@ app.use(helmet.csp({
       'mayizocom.disqus.com', '*.disquscdn.com', '*.jquery.com', '*.sweetcaptcha.com'
   ],
   styleSrc: ["'self'", "'unsafe-inline'", '*.googleapis.com', '*.bootstrapcdn.com'],
-  imgSrc: ["'self'", '*.youtube.com', 'sweetcaptcha.s3.amazonaws.com', 'i.ytimg.com', 'data:'],
+  imgSrc: ["'self'", '*.youtube.com', 'sweetcaptcha.s3.amazonaws.com', 'i.ytimg.com', 'data:', '*.google-analytics.com'],
   connectSrc: ["'self'"],
   fontSrc: ["'self'", '*.gstatic.com', '*.bootstrapcdn.com'],
   objectSrc: ["'self'", '*.youtube.com'],
