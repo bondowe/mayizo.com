@@ -34,10 +34,15 @@ html(lang='fr')
                             span(class='icon-bar')
                             span(class='icon-bar')
                         a(class='navbar-brand' href='/')
-                            svg(xmlns='http://www.w3.org/2000/svg' width='300px' height='50px')
+                            svg(xmlns='http://www.w3.org/2000/svg' width='185px' height='45px')
                                 title Mayizo.com
                                 text(y="28" style="fill: #ffffff;") M@yizo.com
                     div(id='navbar' class='navbar-collapse collapse')
+                        ul(class='nav navbar-nav') 
+                            li
+                                a(href='/' class='glyphicon glyphicon-home')
+                                    span(class='icon-left') Acceuil
+                                    
                         ul(class='nav navbar-nav navbar-right')
                             if isAuthenticated
                                 li

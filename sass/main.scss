@@ -54,6 +54,10 @@ a, a:hover, a:active, a:visited {
     font-style: italic;   
 }
 
+.icon-left {
+    margin-left: 2px;
+}
+
 .navbar-brand {
     font-family: 'Pacifico';
     font-size: 32px;
@@ -152,7 +156,7 @@ a, a:hover, a:active, a:visited {
     color: $jombotron-color;
     background-color: $jumbotron-background-color;
     @include border-radius(10px);
-    
+    display: inline-block;
     div {
         display: inline-block;
         width: 220px;

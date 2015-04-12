@@ -31,6 +31,9 @@ a, a:hover, a:active, a:visited {
 .font-italic {
   font-style: italic; }
 
+.icon-left {
+  margin-left: 2px; }
+
 .navbar-brand {
   font-family: 'Pacifico';
   font-size: 32px;
@@ -112,7 +115,8 @@ a, a:hover, a:active, a:visited {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
-  border-radius: 10px; }
+  border-radius: 10px;
+  display: inline-block; }
   .article-related div {
     display: inline-block;
     width: 220px;
