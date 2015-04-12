@@ -47,7 +47,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet.csp({
   defaultSrc: ["'self'"],
   scriptSrc: [
-      "'self'", "'unsafe-inline'", '*.googleapis.com', '*.bootstrapcdn.com', '*.maxcdn.com', 
+      "'self'", "'unsafe-inline'", '*.googleapis.com', '*.google-analytics.com', '*.bootstrapcdn.com', '*.maxcdn.com', 
       'mayizocom.disqus.com', '*.disquscdn.com', '*.jquery.com', '*.sweetcaptcha.com'
   ],
   styleSrc: ["'self'", "'unsafe-inline'", '*.googleapis.com', '*.bootstrapcdn.com'],
