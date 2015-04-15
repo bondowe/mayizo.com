@@ -23,8 +23,7 @@ block content
             
             if article.video
                 div(class='article-media')
-                    div(class="youtube" id="#{ article.video }" style="width: 560px; height: 315px;")
-                    script(src='/javascripts/youtube.js')
+                    iframe(width="560" height="315" src="https://www.youtube.com/embed/#{ article.video }" frameborder="0" allowfullscreen)
                     
             div(class='article-content')
                 != markdown(article.allContent)

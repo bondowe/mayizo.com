@@ -92,6 +92,7 @@ app.use((req, res, next) => {
     res.cacheFor = (seconds) => {
         if (app.get('env') === 'production') {
             res.set('Cache-Control', 'public, max-age=' + seconds);
+            res.set('Vary', 'Accept-Encoding');
         }
     };
     res.view = (suffix) =>  {
