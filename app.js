@@ -50,8 +50,8 @@ app.use(helmet.csp({
       "'self'", "'unsafe-inline'", '*.googleapis.com', '*.google-analytics.com', '*.bootstrapcdn.com', '*.maxcdn.com', 
       'mayizocom.disqus.com', '*.disquscdn.com', '*.jquery.com', '*.sweetcaptcha.com'
   ],
-  styleSrc: ["'self'", "'unsafe-inline'", '*.googleapis.com', '*.bootstrapcdn.com'],
-  imgSrc: ["'self'", '*.youtube.com', 'sweetcaptcha.s3.amazonaws.com', 'i.ytimg.com', 'data:', '*.google-analytics.com'],
+  styleSrc: ["'self'", "'unsafe-inline'", '*.googleapis.com', '*.bootstrapcdn.com', '*.disquscdn.com'],
+  imgSrc: ["'self'", '*.youtube.com', 'sweetcaptcha.s3.amazonaws.com', 'i.ytimg.com', 'data:', '*.google-analytics.com', '*.disqus.com'],
   connectSrc: ["'self'"],
   fontSrc: ["'self'", '*.gstatic.com', '*.bootstrapcdn.com'],
   objectSrc: ["'self'", '*.youtube.com'],
