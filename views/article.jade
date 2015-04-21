@@ -23,7 +23,7 @@ block content
             
             if article.video
                 div(class='article-media')
-                    iframe(width="560" height="315" src="https://www.youtube.com/embed/#{ article.video }" frameborder="0" allowfullscreen)
+                    object(width="560" height="315" data="https://www.youtube.com/embed/#{ article.video }")
                     
             div(class='article-content')
                 != markdown(article.allContent)

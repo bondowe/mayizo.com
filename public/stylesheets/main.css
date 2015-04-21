@@ -64,6 +64,8 @@ a, a:hover, a:active, a:visited {
   .jumbotron p {
     font-size: 16px;
     margin-bottom: 10px; }
+  .jumbotron .container {
+    with: 100%; }
 
 .navbar-inverse {
   background-color: #333333; }
