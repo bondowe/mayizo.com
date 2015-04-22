@@ -70,6 +70,9 @@ a, a:hover, a:active, a:visited {
 .navbar-inverse {
   background-color: #333333; }
 
+.pagination-container {
+  width: 300px; }
+
 #disqus_thread {
   margin-top: 40px; }
 

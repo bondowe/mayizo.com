@@ -1,0 +1,46 @@
+extends layout
+
+block content
+
+    div(class='container') 
+    
+        h1(class='page-heading') Archives
+        
+        hr
+        
+        +pagination(hasPrev, prevSkip, hasNext, nextSkip)
+                                
+        div(class='row')
+        
+            each article in articlesList
+                div(class='article-index-item')
+                    article
+                        header
+                            h2 
+                                a(href='/article/#{ article.id }')!= markdown(article.title)
+                            - var articleTime = article.createdDate.toFormat('DD MM YYYY HH24:MI')
+                            p(class='article-details')
+                                | posté le #{ articleTime }
+                                
+                            if article.smallImage
+                                a(href='/article/#{ article.id }')
+                                    img(src='#{ article.smallImage }' style='float:left; margin-right: 10px;')
+                                    
+                            != markdown(article.allContent.substring(0, 170) + ' ...')
+                            
+        +pagination(hasPrev, prevSkip, hasNext, nextSkip)
+
+
+mixin pagination(hasPrev, prevSkip, hasNext, nextSkip)
+
+    div(class='pagination-container')
+        nav
+            ul(class='pager')
+                li(class= { previous: true, disabled: !hasPrev })
+                    a(href= hasPrev ? '/archives?skip=#{ prevSkip }' : '#')
+                        span(aria-hidden='true') &larr; 
+                        | plus récents
+                li(class= { next: true, disabled: !hasNext })
+                    a(href= hasNext ? '/archives?skip=#{ nextSkip }' : '#')
+                        | plus anciens
+                        span(aria-hidden='true')  &rarr;

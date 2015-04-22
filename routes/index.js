@@ -45,7 +45,7 @@ router.get('/article/:articleId', (req, res) => {
         }
         Article.find({ _id: { $ne: article._id }, live: true,  smallImage: /\S+/})
                .sort({ lastEditedDate: -1 })
-               .limit(4)
+               .limit(8)
                .exec((err, relatedArticles) => {
             if (err) {
                 return next(err);
@@ -67,6 +67,32 @@ router.get('/article/:articleId', (req, res) => {
             })
         });
     });
+});
+
+/* GET archives page. */
+router.get('/archives', (req, res) => {
+    let skip = +req.query.skip || 0;
+    let limit = 10;
+    Article.find({ live: true })
+           .sort({ createdDate: -1 })
+           .skip(skip)
+           .limit(limit + 1)
+           .exec((err, articles) => {
+                if (err) {
+                    return next(err);
+                }
+                let hasPrev = (skip > 0)
+                let prevSkip = Math.max(0, skip - limit);
+                let hasNext = articles.length > limit;
+                let nextSkip = 0;
+                if(hasNext) {
+                    nextSkip = skip + limit;
+                }
+                if(articles.length > limit) {
+                    articles.pop();   
+                }
+                res.render(res.view(), { articlesList: articles, hasPrev: hasPrev, prevSkip: prevSkip, hasNext:hasNext, nextSkip: nextSkip, limit: limit, pageTitle: 'Archives' });
+            });
 });
 
 module.exports = router;
