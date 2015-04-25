@@ -40,7 +40,7 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(compression());
+// app.use(compression());
 app.use(requestLogger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -92,7 +92,7 @@ app.use((req, res, next) => {
     res.cacheFor = (seconds) => {
         if (app.get('env') === 'production') {
             res.set('Cache-Control', 'public, max-age=' + seconds);
-            res.set('Vary', 'Accept-Encoding');
+            // res.set('Vary', 'Accept-Encoding');
         }
     };
     res.view = (suffix) =>  {
