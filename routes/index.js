@@ -23,19 +23,19 @@ router.get('/', (req, res, next) => {
 });
 
 /* GET about us page. */
-router.get('/about-us', (req, res, next) => {
+router.get('/about-us', (req, res) => {
     res.cacheFor(180);
     res.render(res.view(), { pageTitle: 'Qui somme-nous?' });
 });
 
 /* GET about us page. */
-router.get('/contact-us', (req, res, next) => {
+router.get('/contact-us', (req, res) => {
     res.cacheFor(180);
     res.render(res.view(), { pageTitle: 'Contact' });
 });
 
 /* GET article page. */
-router.get('/article/:articleId', (req, res) => {
+router.get('/article/:articleId', (req, res, next) => {
     Article.findOne({ _id: req.params.articleId, live: true }, (err, article) => {
         if (err) {
             return next(err);
@@ -63,16 +63,24 @@ router.get('/article/:articleId', (req, res) => {
                 let pageKeywords = article.keywordsString;
                 let pageAuthors = authors.map(x => x.pseudo).join(',');
                 let pageOgImage = article.largeImage; 
-                res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, pageTitle: article.title, pageDescription: pageDescription, pageKeywords: pageKeywords, pageAuthors: pageAuthors, pageOgImage: pageOgImage });
+                res.render('article', { 
+                    article: article, 
+                    relatedArticles: relatedArticles, 
+                    authors: authors, 
+                    pageTitle: article.title, 
+                    pageDescription: pageDescription, 
+                    pageKeywords: pageKeywords, 
+                    pageAuthors: pageAuthors, 
+                    pageOgImage: pageOgImage });
             })
         });
     });
 });
 
 /* GET archives page. */
-router.get('/archives', (req, res) => {
+router.get('/archives', (req, res, next) => {
     let skip = +req.query.skip || 0;
-    let limit = 10;
+    let limit = 8;
     Article.find({ live: true })
            .sort({ createdDate: -1 })
            .skip(skip)
@@ -91,8 +99,51 @@ router.get('/archives', (req, res) => {
                 if(articles.length > limit) {
                     articles.pop();   
                 }
-                res.render(res.view(), { articlesList: articles, hasPrev: hasPrev, prevSkip: prevSkip, hasNext:hasNext, nextSkip: nextSkip, limit: limit, pageTitle: 'Archives' });
-            });
-});
+                res.render(res.view(), { 
+                    articlesList: articles, 
+                    hasPrev: hasPrev, 
+                    prevSkip: prevSkip, 
+                    hasNext:hasNext, 
+                    nextSkip: nextSkip, 
+                    limit: limit, 
+                    pageTitle: 'Archives' });
+                });
+    });
+
+/* GET archives page. */
+router.get('/search', (req, res, next) => {
+    var term = req.query.term;
+    let skip = +req.query.skip || 0;
+    let limit = 8;
+    Article.find({ live: true, $text: { $search: term } }, { score: { $meta: "textScore" } })
+           .sort({ score: { $meta: "textScore" } })
+           .skip(skip)
+           .limit(limit + 1)
+           .exec((err, articles) => {
+                if (err) {
+                    console.log(err);
+                    return next(err);
+                }
+                let hasPrev = (skip > 0)
+                let prevSkip = Math.max(0, skip - limit);
+                let hasNext = articles.length > limit;
+                let nextSkip = 0;
+                if(hasNext) {
+                    nextSkip = skip + limit;
+                }
+                if(articles.length > limit) {
+                    articles.pop();   
+                }
+                res.render(res.view(), { 
+                    term: term,
+                    articlesList: articles, 
+                    hasPrev: hasPrev, 
+                    prevSkip: prevSkip, 
+                    hasNext:hasNext, 
+                    nextSkip: nextSkip, 
+                    limit: limit, 
+                    pageTitle: 'Recherche' });
+                });
+    });
 
 module.exports = router;
