@@ -1,19 +1,19 @@
 extends layout
 
 block content
-
-    div(class='jumbotron')
-        div(class='container')
+                
+    div(class='container') 
+    
+        div(class='jumbotron')
             div(class='headline-media')
                 a(href='/article/#{ leadArticle.id }' class='img-responsive')
                     img(src='#{ leadArticle.largeImage }')
             div(class='headline-content')
                 a(href='/article/#{ leadArticle.id }')
                     h1= leadArticle.title
-                    
+
                 != markdown(leadArticle.allContent.substring(0, 800))
-                
-    div(class='container') 
+
         div(class='row')
             each article in articlesList
                 div(class='article-index-item')
