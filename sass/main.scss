@@ -90,14 +90,11 @@ a, a:hover, a:active, a:visited {
     color: $jombotron-color;
     background-color: $jumbotron-background-color;
     min-height: 380px;
+    min-width: 510px;
     
     p {
         font-size: 16px;
         margin-bottom: 10px;
-    }
-    
-    .container {
-        with: 100%;   
     }
 }
 
@@ -116,7 +113,7 @@ a, a:hover, a:active, a:visited {
 .headline-media {
     float: left; 
     margin-right: 20px;
-    width: 470px;
+    width: 500px;
     height: 350px;
     overflow: hidden;
 }

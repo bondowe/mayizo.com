@@ -60,12 +60,12 @@ a, a:hover, a:active, a:visited {
   margin: 0px;
   padding: 15px;
   color: #c6c6c6;
-  background-color: #333333; }
+  background-color: #333333;
+  min-height: 380px;
+  min-width: 510px; }
   .jumbotron p {
     font-size: 16px;
     margin-bottom: 10px; }
-  .jumbotron .container {
-    with: 100%; }
 
 .navbar-inverse {
   background-color: #333333; }
@@ -79,7 +79,7 @@ a, a:hover, a:active, a:visited {
 .headline-media {
   float: left;
   margin-right: 20px;
-  width: 470px;
+  width: 500px;
   height: 350px;
   overflow: hidden; }
 
