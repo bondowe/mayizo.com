@@ -22,8 +22,9 @@ block content
             hr
             
             if article.video
-                div(class='article-media')
-                    object(width="560" height="315" data="https://www.youtube.com/embed/#{ article.video }")
+                div(class='video-container')
+                    div(class='video-wrapper')
+                        iframe(width='560' height='315' src='https://www.youtube.com/embed/#{ article.video }' frameborder='0' allowfullscreen)
                     
             div(class='article-content')
                 != markdown(article.allContent)
