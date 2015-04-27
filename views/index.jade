@@ -27,9 +27,14 @@ block content
                                     img(src='#{ article.smallImage }' style='float:left; margin-right: 10px;')
                                     
                             != markdown(article.allContent.substring(0, 170) + ' ...')
-                            
-        div(class='row articles-old')
-            a(href='/archives?skip=9') Anciens articles
+ 
+        nav
+            ul(class='pager')
+                li(class= { previous: true })
+                    a(href='/archives?skip=9')
+                        span(aria-hidden='true') Anciens articles &rarr; 
+                        | 
+
 
 
 
