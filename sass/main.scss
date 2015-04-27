@@ -246,4 +246,15 @@ a, a:hover, a:active, a:visited {
 	height:100%;
 }
 
+.articles-old {
+    background-color: $jumbotron-background-color;
+    padding: 5px;
+    margin: 10px;
+    width: 50%;
+    font-weight: bold;
+    text-align: center;
+    a, a:visited, a:hover {
+        color: white !important;
+    }
+}
 
