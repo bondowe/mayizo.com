@@ -12,7 +12,7 @@ block content
                 a(href='/article/#{ leadArticle.id }')
                     h1= leadArticle.title
 
-                != markdown(leadArticle.allContent.substring(0, 800))
+                != markdown(leadArticle.allContent.substring(0, 700)+ '&hellip;')
 
         div(class='row')
             each article in articlesList
