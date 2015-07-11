@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 let express = require('express');
 let path = require('path');
 let favicon = require('serve-favicon'); 
@@ -31,13 +31,24 @@ db.once('open', (callback) => {
   util.log('Mongo database connection opened: ' + config.db.uri);
 });
 let app = express();
-if (app.get('env') === 'production') {
+let isProduction = ((app.get('env') === 'production'));
+if (isProduction) {
     app.enable('trust proxy');
 }
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+if (isProduction) {
+    // non-www to www redirect
+    app.get('/*', function(req, res, next) {
+        if (req.headers.host.match(/^www/) == null) {
+            res.redirect('http://www.' + req.headers.host + req.url, 301);
+        } else {
+            next();
+        }
+    });
+}
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 // app.use(compression());
@@ -51,7 +62,7 @@ app.use(helmet.csp({
       'mayizocom.disqus.com', '*.disquscdn.com', '*.sweetcaptcha.com', '*.jquery.com', 'https://code.jquery.com'
   ],
   styleSrc: ["'self'", "'unsafe-inline'", '*.googleapis.com', '*.bootstrapcdn.com', '*.disquscdn.com'],
-  imgSrc: ["'self'", '*.youtube.com', 'sweetcaptcha.s3.amazonaws.com', 'i.ytimg.com', 'data:', '*.google-analytics.com', '*.disqus.com', 'i2.wp.com'],
+  imgSrc: ["'self'", '*.youtube.com', 'sweetcaptcha.s3.amazonaws.com', 'i.ytimg.com', 'data:', '*.google-analytics.com', '*.disqus.com', 'i2.wp.com', '*.wp.com'],
   connectSrc: ["'self'"],
   fontSrc: ["'self'", '*.gstatic.com', '*.bootstrapcdn.com'],
   objectSrc: ["'self'", '*.youtube.com'],

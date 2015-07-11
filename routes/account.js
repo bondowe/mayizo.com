@@ -1,11 +1,11 @@
-"use strict"
+/// <reference path="../typings/tsd.d.ts""/>
+"use strict";
 let config = require('../config');
 let security = require('../util/security');
 let crypto = require('crypto');
 let util = require('util');
 let express = require('express');
 let router = express.Router();
-
 let sweetcaptcha = new require('sweetcaptcha');
 let captcha = sweetcaptcha(config.sweetcaptcha.appId, config.sweetcaptcha.appKey, config.sweetcaptcha.appSecret);
 

@@ -1,10 +1,13 @@
-var express = require('express');
-var router = express.Router();
-var config = require('../../config');
-var util = require('util');
-var User = require('../../models/user');
+"use strict";
 
-var debuglog = util.debuglog('mayizo:admin-users');
+let express = require('express');
+let router = express.Router();
+let config = require('../../config');
+let util = require('util');
+let User = require('../../models/user');
+let Author = require('../../models/author');
+
+let debuglog = util.debuglog('mayizo:admin-users');
 
 /* GET authors */
 router.get('/list', (req, res, next) => {
@@ -27,8 +30,8 @@ router.route('/edit/:userId')
             });
       })
       .post((req, res, next) => {
-            var authr = req.body.author;
-            var upd = {
+            let authr = req.body.author;
+            let upd = {
                 pseudo: authr.pseudo,
                 reviewRequired: authr.reviewRequired,
                 isReviewer: authr.isReviewer,

@@ -12,7 +12,7 @@ block content
                 a(href='/article/#{ leadArticle.id }')
                     h1= leadArticle.title
 
-                != markdown(leadArticle.allContent.substring(0, 700)+ '&hellip;')
+                != markdown(leadArticle.allContent.substring(0, 900) + '&hellip;')
 
         div(class='row')
             each article in articlesList
@@ -26,7 +26,7 @@ block content
                                 a(href='/article/#{ article.id }')
                                     img(src='#{ article.smallImage }' style='float:left; margin-right: 10px;')
                                     
-                            != markdown(article.allContent.substring(0, 170) + ' ...')
+                            != markdown(article.allContent.substring(0, 170) + '&hellip;')
  
         nav
             ul(class='pager')
