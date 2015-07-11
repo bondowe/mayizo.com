@@ -14,6 +14,10 @@ block content
                 input(class="form-control" name="article[title]" id="articleTitle" value='#{ article.title }' maxlength="125" required placeholder="Le titre de l'article")
 
             div(class="form-group")
+                label(for="articleAuthorsOverride") Auteurs
+                input(class="form-control" name="article[authorsOverride]" id="articleAuthorsOverride" value='#{ article.authorsOverride }' maxlength="125" required placeholder="Le(s) auteurs de l'article")
+
+            div(class="form-group")
                 label(for="articleKeywords") Mots clé
                 input(class="form-control" name="article[keywords]" id="articleKeywords" value='#{ article.keywordsString }' maxlength="125" required placeholder="Les mots clé de l'article, separés par des virgules")
 

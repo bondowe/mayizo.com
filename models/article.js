@@ -18,6 +18,7 @@ var articleSchema = new Schema({
     leadingArticle: Boolean,
     createdDate: { type: Date, default: Date.now, required: true },
     authors: [{ type: mongoose.Schema.Types.ObjectId }], // refers to user._id
+    authorsOverride: String,
     lastEditedDate: Date,
     lastEditors: [{ type: mongoose.Schema.Types.ObjectId }],
     likes: {

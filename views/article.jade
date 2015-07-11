@@ -10,7 +10,7 @@ block content
                 div(class='article-details')
                     | par 
                     each author in authors
-                        a(class='author-pseudo badge' href='#')= author.pseudo
+                        a(class='author-pseudo badge' href='#')= author
                     if article.lastEditedDate
                         | modifié 
                     | le #{ articleTime } 

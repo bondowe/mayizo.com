@@ -17,20 +17,20 @@ router.get('/', (req, res, next) => {
         }
         let leadArticle = articles[0];
         let articlesList = articles.slice(1);
-        res.cacheFor(180);
+        // res.cacheFor(180);
         res.render('index', { leadArticle: leadArticle, articlesList: articlesList, pageTitle: 'Acceuil' });
     });
 });
 
 /* GET about us page. */
 router.get('/about-us', (req, res) => {
-    res.cacheFor(180);
+    // res.cacheFor(180);
     res.render(res.view(), { pageTitle: 'Qui somme-nous?' });
 });
 
 /* GET about us page. */
 router.get('/contact-us', (req, res) => {
-    res.cacheFor(180);
+    // res.cacheFor(180);
     res.render(res.view(), { pageTitle: 'Contact' });
 });
 
@@ -58,15 +58,20 @@ router.get('/article/:articleId', (req, res, next) => {
                 if (err) {
                     return next(err);
                 } 
-                res.cacheFor(180);
+                // res.cacheFor(180);
                 let pageDescription = article.allContent.substring(0, 185);
                 let pageKeywords = article.keywordsString;
-                let pageAuthors = authors.map(x => x.pseudo).join(',');
                 let pageOgImage = article.largeImage; 
+                let articleAuthors = (article.authorsOverride != undefined 
+                                      && article.authorsOverride != null
+                                      && article.authorsOverride.trim().length > 0)
+                                   ? article.authorsOverride.split(',')
+                                   : authors.map(x => x.pseudo);
+                let pageAuthors = articleAuthors.join(',');
                 res.render('article', { 
                     article: article, 
                     relatedArticles: relatedArticles, 
-                    authors: authors, 
+                    authors: articleAuthors, 
                     pageTitle: article.title, 
                     pageDescription: pageDescription, 
                     pageKeywords: pageKeywords, 

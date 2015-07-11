@@ -30,7 +30,8 @@ router.route('/add')
                 content: '',
                 smallImage: '',
                 largeImage: '',
-                video: ''
+                video: '',
+                authorsOverride: req.session.user.username
             };
            res.render(res.view(), {article: art, csrfToken: req.csrfToken(), pageTitle: 'Nouvel article' });
       })
@@ -44,7 +45,8 @@ router.route('/add')
                 smallImage: art.smallImage,
                 largeImage: art.largeImage,
                 video: art.video,
-                authors: [req.session.user._id]
+                authors: [req.session.user._id],
+                authorsOverride: art.authorsOverride
             });
             article.save((err, article) => {
                 if (err) {
@@ -61,7 +63,16 @@ router.route('/edit/:articleId')
                 if (err) {
                     return next(err);
                 }
-                res.render(res.view('..'), { article: article, csrfToken: req.csrfToken(), pageTitle: 'Modifier l\'article' });
+                let articleAuthors = (article.authorsOverride != undefined 
+                                      && article.authorsOverride != null
+                                      && article.authorsOverride.trim().length > 0)
+                                   ? article.authorsOverride
+                                   : req.session.user.username;
+                article.authorsOverride = articleAuthors;
+                res.render(res.view('..'), { 
+                    article: article, 
+                    csrfToken: req.csrfToken(), 
+                    pageTitle: 'Modifier l\'article' });
             });
       })
       .post((req, res, next) => {
@@ -74,6 +85,7 @@ router.route('/edit/:articleId')
                 smallImage: art.smallImage,
                 largeImage: art.largeImage,
                 video: art.video,
+                authorsOverride: art.authorsOverride,
                 live: art.live,
                 commentsAllowed: art.commentsAllowed,
                 lastEditedDate: new Date(),
@@ -110,9 +122,22 @@ router.get('/preview/:articleId', (req, res, next) => {
                 }
                 let pageDescription = article.allContent.substring(0, 185);
                 let pageKeywords = article.keywordsString;
-                let pageAuthors = authors.map(x => x.pseudo).join(',');
                 let pageOgImage = article.largeImage; 
-                res.render('article', { article: article, relatedArticles: relatedArticles, authors: authors, pageTitle: 'Preview de l\'article', pageDescription: pageDescription, pageKeywords: pageKeywords, pageAuthors: pageAuthors, pageOgImage: pageOgImage });
+                let articleAuthors = (article.authorsOverride != undefined 
+                                      && article.authorsOverride != null
+                                      && article.authorsOverride.trim().length > 0)
+                                   ? article.authorsOverride.split(',')
+                                   : authors.map(x => x.pseudo);
+                let pageAuthors = articleAuthors.join(',');
+                res.render('article', { 
+                    article: article, 
+                    relatedArticles: relatedArticles, 
+                    authors: articleAuthors, 
+                    pageTitle: 'Preview de l\'article', 
+                    pageDescription: pageDescription, 
+                    pageKeywords: pageKeywords, 
+                    pageAuthors: pageAuthors, 
+                    pageOgImage: pageOgImage });
             })
         });
     });
