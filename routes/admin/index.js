@@ -1,12 +1,11 @@
-var util = require('util');
-var debuglog = util.debuglog('mayizo:admin');
-var express = require('express');
+'use strict'
+let util = require('util');
+let express = require('express');
+let articles = require('./articles');
+let authors = require('./authors');
+let users = require('./users');
 
-var app = express();
-
-var articles = require('./articles');
-var authors = require('./authors');
-var users = require('./users');
+let app = express();
 
 app.use('/articles', articles);
 app.use('/authors', authors);

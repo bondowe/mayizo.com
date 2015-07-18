@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var config = require('../../config');
-var util = require('util');
-var Author = require('../../models/author');
+"use strict"
+let express = require('express');
+let config = require('../../config');
+let util = require('util');
+let Author = require('../../models/author');
 
-var debuglog = util.debuglog('mayizo:admin-authors');
+let router = express.Router();
 
 /* GET authors */
 router.get('/list', (req, res, next) => {

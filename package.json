@@ -5,7 +5,7 @@
   "scripts": {
     "test": "istanbul cover _mocha -- \"test/**/*.js\" -R tap",
     "ci-test": "istanbul cover _mocha -- \"test/**/*.js\" -R tap > test.tap && istanbul report clover",
-    "dev": "DEBUG=mayizo:* NODE_DEBUG=mayizo:* NODE_ENV=development nodemon --debug --harmony ./bin/www",
+    "dev": "NODE_DEBUG=mayizo NODE_ENV=development nodemon --debug --harmony ./bin/www",
     "prod": "NODE_ENV=production pm2 start ./bin/www --name mayizo.com -i 0 --node-args=\"--harmony\""
   },
   "dependencies": {

@@ -1,13 +1,11 @@
 "use strict";
-
 let express = require('express');
-let router = express.Router();
 let config = require('../../config');
 let util = require('util');
 let User = require('../../models/user');
 let Author = require('../../models/author');
 
-let debuglog = util.debuglog('mayizo:admin-users');
+let router = express.Router();
 
 /* GET authors */
 router.get('/list', (req, res, next) => {

@@ -1,8 +1,9 @@
-var mongoose = require('mongoose');
+'use strict'
+let mongoose = require('mongoose');
 
-var Schema = mongoose.Schema;
+let Schema = mongoose.Schema;
 
-var articleSchema = new Schema({
+let articleSchema = new Schema({
     
     title: { type: String, required: true, maxlength: 125 },
     keywords: [{ type: String, maxlength: 125 }],

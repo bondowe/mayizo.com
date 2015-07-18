@@ -1,12 +1,12 @@
 "use strict"
 let express = require('express');
-let router = express.Router();
 let config = require('../../config');
 let util = require('util');
 let Article = require('../../models/article');
 let Author = require('../../models/author');
+let articleUtils = require('../../util/articles')
 
-let debuglog = util.debuglog('mayizo:admin-articles');
+let router = express.Router();
 
 /* GET articles list. */
 router.get('/list', (req, res, next) => {
@@ -101,46 +101,7 @@ router.route('/edit/:articleId')
 
 /* GET preview article */
 router.get('/preview/:articleId', (req, res, next) => {
-    Article.findOne({ _id: req.params.articleId }, (err, article) => {
-        if (err) {
-            return next(err);
-        }
-        Article.find({ _id: { $ne: article._id }, smallImage: /\S+/})
-               .sort({ lastEditedDate: -1 })
-               .limit(4)
-               .exec((err, relatedArticles) => {
-            if (err) {
-                return next(err);
-            }
-            let authorIds = article.authors;
-            if(article.lastEditors) {
-                authorIds = authorIds.concat(article.lastEditors);
-            }
-            Author.find({ userId: { $in: authorIds } }, (err, authors) => {
-                if (err) {
-                    return next(err);
-                }
-                let pageDescription = article.allContent.substring(0, 185);
-                let pageKeywords = article.keywordsString;
-                let pageOgImage = article.largeImage; 
-                let articleAuthors = (article.authorsOverride != undefined 
-                                      && article.authorsOverride != null
-                                      && article.authorsOverride.trim().length > 0)
-                                   ? article.authorsOverride.split(',')
-                                   : authors.map(x => x.pseudo);
-                let pageAuthors = articleAuthors.join(',');
-                res.render('article', { 
-                    article: article, 
-                    relatedArticles: relatedArticles, 
-                    authors: articleAuthors, 
-                    pageTitle: 'Preview de l\'article', 
-                    pageDescription: pageDescription, 
-                    pageKeywords: pageKeywords, 
-                    pageAuthors: pageAuthors, 
-                    pageOgImage: pageOgImage });
-            })
-        });
-    });
+    return articleUtils.getArticleWithRelated({ _id: req.params.articleId }, res, next);
 });
 
 module.exports = router;
