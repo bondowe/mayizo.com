@@ -1,0 +1,33 @@
+extends ../../layout
+
+block content
+
+    div(class='container center-block main-form large-form')
+
+        form(method="post" action="/admin/pendingUsers/add" enctype="application/x-www-form-urlencoded")
+            input(type='hidden' name='_csrf' value='#{ csrfToken }')
+
+            h1 Nouvel utilisateur
+
+            div(class="form-group")
+                label(for="pendingUserEmail") Email
+                input(class="form-control" type="email" name="pendingUser[email]" id="pendingUserEmail" value='#{ pendingUser.email }' maxlength="250" required placeholder="L'adresse email de l'utilisateur")
+
+            div(class="form-group")
+                label(for="pendingUserRoleIds") Roles
+                select(class="form-control" name="pendingUser[roleId]")
+                    each role in roles
+                        option(value=role.id, selected=(role.id == pendingUser.roleId))= role.name
+
+            div(class="form-action")
+                button(type="submit" class="btn btn-default")
+                    span(class='glyphicon glyphicon-floppy-disk')
+                    span Ajouter
+                a(class='btn btn-default' href='/admin/pendingUsers/list')
+                    span(class='glyphicon glyphicon-remove')
+                    span Annuler
+
+    block append moreScripts
+        script(src='/vendor/autosize/dest/autosize.min.js')
+        script(src='/javascripts/textarea-autosize.js')
+

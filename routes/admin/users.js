@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 let express = require('express');
 let config = require('../../config');
 let util = require('util');
