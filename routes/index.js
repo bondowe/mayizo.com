@@ -10,6 +10,7 @@ let router = express.Router();
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
+    console.log(req.user);
     Article.find({ live: true })
            .sort({ lastEditedDate: -1 })
            .limit(9)

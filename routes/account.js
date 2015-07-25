@@ -1,10 +1,12 @@
-"use strict";
+'use strict';
 let config = require('../config');
 let security = require('../util/security');
 let crypto = require('crypto');
 let util = require('util');
 let express = require('express');
 let User = require('../models/user');
+let PendingUser = require('../models/pendingUser');
+let passwordless = require('passwordless');
 let sweetcaptcha = new require('sweetcaptcha');
 let captcha = sweetcaptcha(config.sweetcaptcha.appId, config.sweetcaptcha.appKey, config.sweetcaptcha.appSecret);
 
@@ -70,45 +72,38 @@ router.route('/register')
             });
       });
 
-/* login page. */
 router.route('/login')
       .get((req, res) => {
-            let usr = { email: '' };
-            res.render('account/login', { user: usr, csrfToken: req.csrfToken(), pageTitle: 'Connexion', returnUrl: req.query.returnUrl });
+            delete req.session.user;
+            res.render(res.view(), { user: '', csrfToken: req.csrfToken(), pageTitle: 'Connexion', returnUrl: req.query.returnUrl });
       })
-      .post((req, res) => {
-            let usr = req.body.user;
-            let renderView = (errMsg) => {
-                delete req.session.user;
-                errMsg = errMsg || 'Une erreur est survenue lors du traitement de votre requête. Veuillez reéssayer.';
-                res.render('account/login', { user: usr, csrfToken: req.csrfToken(), pageTitle: 'Connexion', returnUrl: req.body.returnUrl, errorMessage: errMsg });
-            };      
-            User.findOne({ email: usr.email }, (err, user) => {
-                if (err) {
-                    return renderView();   
-                }
-                let incorrectCredentialsMessage = 'Email ou mot de passe incorrect.';
-                if (!user) {
-                    return renderView(incorrectCredentialsMessage);   
-                }
-                security.verifyPbkdf2(usr.password, user.passwordSalt, user.password, (err, success) => {
-                    if (err) {
-                        return renderView();
-                    }    
-                    if (!success) {
-                        return renderView (incorrectCredentialsMessage);
-                    }
-                    req.session.user = user;         
-                    let returnUrl = (req.body.returnUrl && req.body.returnUrl != 'undefined')
-                                ? req.body.returnUrl 
-                                : '/';    
-                    res.redirect(returnUrl);
-                });
-            }); 
-      });
+     .post(
+          passwordless.requestToken(
+              (user, delivery, callback, req) => {
+                    User.findByEmail(user).then(usr => {
+                        if (usr) {
+                            return Promise.resolve(usr);
+                        }
+                        return PendingUser.findByEmail(user);
+                    }).then(usr => {
+                        if(usr) {
+                            return callback(null, usr.id)
+                       }
+                       return callback(null, null);
+                    }).catch(err => {
+                       return callback(err, null); 
+                    });
+                }, {
+                    originField: 'returnUrl'
+                }),     
+        (req, res) => {
+            res.render(res.view('../loginTokenSent'), { pageTitle: 'Connexion' });
+        }
+);
 
-/* login page. */
-router.get('/logout', (req, res) => {
+router.route('/connect').get(passwordless.acceptToken({ enableOriginRedirect: true }));
+
+router.get('/logout', passwordless.logout(), (req, res) => {
     delete req.session.user;
     return res.redirect('/');
 });

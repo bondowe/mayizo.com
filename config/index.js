@@ -10,6 +10,20 @@ var config = {
         }
     },
     
+    email: {
+        from: {
+            support: 'Mayizo Team <support@mayizo.com>'
+        },
+        server: {
+            host: 'smtp.zoho.com',
+            port: 587,
+            auth: {
+                user: 'support@mayizo.com',
+                pass: 'zo19731103ZO'
+            }
+        }
+    },
+    
     crypto: {
         pbkdf2: {
             saltLength: 20,

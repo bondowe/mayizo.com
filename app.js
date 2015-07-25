@@ -10,6 +10,8 @@ let wwwRedirect = require("./middlewares/www-redirect-middleware")
 let session = require("./middlewares/session-middleware")
 let sass = require('./middlewares/sass-middleware');
 let helmet = require("./middlewares/helmet-middleware")
+let passwordless = require('passwordless');
+let passwordlessHelper = require('./util/passwordless-helper');
 let requestHelpers = require('./middlewares/request-helpers-middleware');
 let requestLocals = require("./middlewares/request-locals-middleware")
 let errorHandlers = require("./middlewares/error-handlers-middleware")
@@ -51,14 +53,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(session(db));
+app.use(passwordless.sessionSupport());
+app.use(passwordless.acceptToken({ successRedirect: '/'}));
 app.use(csrf());
 app.use(sass());
 app.use(requestHelpers());
 app.use(requestLocals());
 app.use('/', routes);
 app.use('/account', account);
-app.use('/admin', authenticate(), admin);
+app.use('/admin',passwordless.restricted({ failureRedirect: '/account/login', originField: 'returnUrl'}), admin);
 app.use(errorHandlers(isProduction));
+
+passwordlessHelper.init(app);
 
 module.exports = app;
 

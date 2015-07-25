@@ -1,7 +1,5 @@
 'use strict';
 let express = require('express');
-let config = require('../../config');
-let util = require('util');
 let PendingUser = require('../../models/pendingUser');
 let Role = require('../../models/role');
 
@@ -36,7 +34,7 @@ router.route('/add')
                 roleId: req.body.pendingUser.roleId,
                 createdBy: req.session.user._id
             };
-            PendingUser.createNew(document).then(pendingUser => {
+            PendingUser.createNew(document).then(pendingUser => {              
                 res.redirect('list');
             }).catch(err => {
                 // TODO Log&render err

@@ -24,6 +24,29 @@ var userSchema = new Schema({
     bannedBy: mongoose.Schema.Types.ObjectId
 });
 
+userSchema.statics.getById = (id) => {
+    var self = this;
+	return new Promise((resolve, reject) => {
+        self.findById(id, (err, user) => {
+            if (err) {
+                return reject(err);
+            }
+			return resolve(user);
+        });
+	});	
+};
+
+userSchema.statics.findByEmail = (email) => {
+    var self = this;
+	return new Promise((resolve, reject) => {
+        self.findOne({ email: email }, (err, user) => {
+            if (err) {
+                return reject(err);
+            }
+			return resolve(user);
+        });
+	});	
+};
 
 userSchema.virtual('fullName').get(() => {
   return (this.title ? this.title + ' ' : '') 
