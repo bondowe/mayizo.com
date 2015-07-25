@@ -10,7 +10,6 @@ let router = express.Router();
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-    console.log(req.user);
     Article.find({ live: true })
            .sort({ lastEditedDate: -1 })
            .limit(9)
@@ -86,7 +85,6 @@ router.get('/search', (req, res, next) => {
            .limit(limit + 1)
            .exec((err, articles) => {
                 if (err) {
-                    console.log(err);
                     return next(err);
                 }
                 let hasPrev = (skip > 0)

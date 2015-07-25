@@ -2,9 +2,8 @@
 
 // catch 404 and forward to error handler
 let _404_Handler = (req, res, next) => {
-    let err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+    res.statusCode = 404;
+    return res.render('error-404', { pageTitle: 'Page introuvable' });
 };
 let stackTraceHandler = (err, req, res, next) => {
     res.status(err.status || 500);

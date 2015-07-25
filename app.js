@@ -15,7 +15,6 @@ let passwordlessHelper = require('./util/passwordless-helper');
 let requestHelpers = require('./middlewares/request-helpers-middleware');
 let requestLocals = require("./middlewares/request-locals-middleware")
 let errorHandlers = require("./middlewares/error-handlers-middleware")
-let authenticate = require("./middlewares/authenticate-middleware")
 let requestLogger = require('morgan');
 let config = require('./config');
 let mongoose = require('mongoose');
@@ -54,14 +53,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(session(db));
 app.use(passwordless.sessionSupport());
-app.use(passwordless.acceptToken({ successRedirect: '/'}));
 app.use(csrf());
 app.use(sass());
 app.use(requestHelpers());
 app.use(requestLocals());
 app.use('/', routes);
 app.use('/account', account);
-app.use('/admin',passwordless.restricted({ failureRedirect: '/account/login', originField: 'returnUrl'}), admin);
+app.use('/admin', passwordless.restricted({ failureRedirect: '/account/login', originField: 'returnUrl'}), admin);
 app.use(errorHandlers(isProduction));
 
 passwordlessHelper.init(app);

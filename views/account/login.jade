@@ -10,8 +10,9 @@ block content
             h1 Connexion
             hr
             
-            if errorMessage
-                div(class='alert alert-danger' role='alert')= errorMessage
+            if failed
+                div(class='alert alert-danger' role='alert')
+                    p Accès refusé.
             
             input(type='hidden' name='returnUrl' value='#{ returnUrl }')
             

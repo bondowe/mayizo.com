@@ -73,9 +73,9 @@ router.route('/register')
       });
 
 router.route('/login')
-      .get((req, res) => {
+      .get(passwordless.logout(), (req, res) => {
             delete req.session.user;
-            res.render(res.view(), { user: '', csrfToken: req.csrfToken(), pageTitle: 'Connexion', returnUrl: req.query.returnUrl });
+            res.render(res.view(), { user: '', csrfToken: req.csrfToken(), pageTitle: 'Connexion', failed: req.query.failed, returnUrl: req.query.returnUrl });
       })
      .post(
           passwordless.requestToken(
@@ -88,17 +88,18 @@ router.route('/login')
                     }).then(usr => {
                         if(usr) {
                             return callback(null, usr.id)
-                       }
-                       return callback(null, null);
+                        }
+                        return callback(null, null);
                     }).catch(err => {
-                       return callback(err, null); 
+                        return callback(err, null); 
                     });
                 }, {
+                    failureRedirect: '/account/login?failed=yes',
                     originField: 'returnUrl'
                 }),     
-        (req, res) => {
-            res.render(res.view('../loginTokenSent'), { pageTitle: 'Connexion' });
-        }
+          (req, res) => {
+                res.render(res.view('../loginTokenSent'), { pageTitle: 'Connexion' });
+          }
 );
 
 router.route('/connect').get(passwordless.acceptToken({ enableOriginRedirect: true }));
