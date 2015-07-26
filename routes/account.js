@@ -65,7 +65,7 @@ router.route('/register')
                         if (err) {
                             return res.send(err);   
                         }
-                        req.session.user = user;   
+                        req.session.currentUser = user;   
                         res.redirect('/');
                     });
                 });
@@ -74,7 +74,7 @@ router.route('/register')
 
 router.route('/login')
       .get(passwordless.logout(), (req, res) => {
-            delete req.session.user;
+            delete req.session.currentUser;
             res.render(res.view(), { user: '', csrfToken: req.csrfToken(), pageTitle: 'Connexion', failed: req.query.failed, returnUrl: req.query.returnUrl });
       })
      .post(
@@ -105,7 +105,7 @@ router.route('/login')
 router.route('/connect').get(passwordless.acceptToken({ enableOriginRedirect: true }));
 
 router.get('/logout', passwordless.logout(), (req, res) => {
-    delete req.session.user;
+    delete req.session.currentUser;
     return res.redirect('/');
 });
 

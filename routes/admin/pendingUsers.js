@@ -6,49 +6,39 @@ let Role = require('../../models/role');
 let router = express.Router();
 
 router.get('/list', (req, res, next) => {
-    let pendingUsersPromise = PendingUser.findAll();
-    let rolesPromise = Role.findAll();
-    Promise.all([pendingUsersPromise, rolesPromise]).then(result => {
-        res.render(res.view(), { pendingUsers: result[0], roles: result[1], pageTitle: 'Utilisateurs en attente' });
+    PendingUser.findAll().then(pendingUser => {
+        return res.render(res.view(), { pendingUsers: pendingUser, pageTitle: 'Utilisateurs en attente' });
     }).catch(err => {
-        // TODO Log err
+        return next(err);
     });
 });
 
 router.route('/add')
       .get((req, res, next) => {
-            let pendingUserPromise = Promise.resolve(
-                new PendingUser({
-                        email: ''
-                }));
-            let rolesPromise = Role.findAll();
-            Promise.all([pendingUserPromise, rolesPromise]).then(result => {
-                res.render(res.view(), {pendingUser: result[0], roles: result[1], csrfToken: req.csrfToken(), pageTitle: 'Nouvel utilisateur' });
-            }).catch(err => {
-                // TODO Log&render err
-            });
+            let pendingUser = {
+                email: ''
+            };
+            return res.render(res.view(), { pendingUser: pendingUser, csrfToken: req.csrfToken(), pageTitle: 'Nouvel utilisateur' });
       })
       .post((req, res, next) => {
             let document = {
                 email: req.body.pendingUser.email,
                 roleId: req.body.pendingUser.roleId,
-                createdBy: req.session.user._id
+                createdBy: req.session.currentUser._id
             };
             PendingUser.createNew(document).then(pendingUser => {              
-                res.redirect('list');
+                return res.redirect('list');
             }).catch(err => {
-                // TODO Log&render err
+                return next(err);
             });
       });
         
 router.route('/edit/:pendingUserId')
       .get((req, res, next) => {
-            let pendingUserPromise = PendingUser.getById(req.params.pendingUserId);
-            let rolesPromise = Role.findAll();
-            Promise.all([pendingUserPromise, rolesPromise]).then(result => {
-                res.render(res.view('..'), { pendingUser: result[0], roles: result[1], csrfToken: req.csrfToken(), pageTitle: 'Modifier l\'utilisateur' });
+            PendingUser.getById(req.params.pendingUserId).then(pendingUserId => {
+                return res.render(res.view('..'), { pendingUser: pendingUserId, csrfToken: req.csrfToken(), pageTitle: 'Modifier l\'utilisateur' });
             }).catch(err => {
-                // TODO Log&render err
+                return next(err);
             });
       })
       .post((req, res, next) => {
@@ -58,19 +48,18 @@ router.route('/edit/:pendingUserId')
             };
             PendingUser.updateOne(req.params.pendingUserId, upd)
                        .then(pendingUser => {
-                            res.redirect('../list');
+                            return res.redirect('../list');
             }).catch(err => {
-                console.log(err);
-                // TODO Log&render err
+                return next(err);
             });
       });
 
 router.route('/delete/:pendingUserId')
       .post((req, res, next) => {
             PendingUser.delete(req.params.pendingUserId).then(() => {
-               res.redirect('../list');
+               return res.redirect('../list');
             }).catch(err => {
-               // TODO Log&render err
+               return next(err);
             });
       });
 	  

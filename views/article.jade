@@ -32,17 +32,6 @@ block content
             div(class='article-content')
                 != markdown(article.allContent)
                 
-                div
-                    span(class='st_facebook_large' displayText='Facebook')
-                    span(class='st_googleplus_large' displayText='Google +')
-                    span(class='st_blogger_large' displayText='Blogger')
-                    span(class='st_wordpress_large' displayText='WordPress')
-                    span(class='st_twitter_large' displayText='Tweet')
-                    span(class='st_linkedin_large' displayText='LinkedIn')
-                    span(class='st_sharethis_large' displayText='ShareThis')
-                    span(class='st_pinterest_large' displayText='Pinterest')
-                    span(class='st_email_large' displayText='Email')
-                
                 div(class='article-related')
                     each relArticle in relatedArticles
                         div
@@ -52,13 +41,7 @@ block content
                                 if relArticle.smallImage
                                     a(href='/article/#{ relArticle.id }')
                                         img(src='#{ relArticle.smallImage }')
-                                        
-                script.
-                    var switchTo5x=true;
-                script(src="http://w.sharethis.com/button/buttons.js")
-                script.
-                    stLight.options({publisher: "074fa515-fde7-4007-aa71-0f56f89356b6", doNotHash: false, doNotCopy: true, hashAddressBar: false, popup:false, servicePopup: true });
-            
+
                 if article.commentsAllowed
                     div(id='disqus_thread')
                     script.

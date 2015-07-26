@@ -8,6 +8,10 @@ let pendingUsers = require('./pendingUsers');
 
 let app = express();
 
+app.on('mount', parent => {
+	app.locals = parent.locals;
+});
+
 app.use('/articles', articles);
 app.use('/authors', authors);
 app.use('/users', users);

@@ -1,48 +1,44 @@
 'use strict';
 let express = require('express');
-let config = require('../../config');
-let util = require('util');
 let User = require('../../models/user');
-let Author = require('../../models/author');
 
 let router = express.Router();
 
-/* GET authors */
 router.get('/list', (req, res, next) => {
-    User.find({}, (err, users) => {
-        if (err) {
-            return next(err);
-        }
-        res.render(res.view(), { users: users, pageTitle: 'Utilisateurs' });
+    User.findAll().then(users => {
+        return res.render(res.view(), { users: users, pageTitle: 'Utilisateurs' });
+    }).catch(err => {
+        return next(err);
     });
 });
-
-/* edit article */
+        
 router.route('/edit/:userId')
-      .get(function(req, res, next) {
-            User.findById(req.params.userId, (err, user) => {
-                if (err) {
-                    return next(err);
-                }
-                res.render(res.view('..'), { user: user, csrfToken: req.csrfToken(), pageTitle: 'Modifier l\'utilisateur' });
+      .get((req, res, next) => {
+            User.getById(req.params.userId).then(user => {
+                return res.render(res.view('..'), { user: user, csrfToken: req.csrfToken(), pageTitle: 'Modifier l\'utilisateur' });
+            }).catch(err => {
+                return next(err);
             });
       })
       .post((req, res, next) => {
-            let authr = req.body.author;
             let upd = {
-                pseudo: authr.pseudo,
-                reviewRequired: authr.reviewRequired,
-                isReviewer: authr.isReviewer,
-                isAdmin: authr.isAdmin
+                email: req.body.user.email,
+                roleId: req.body.user.roleId
             };
-            Author.findOneAndUpdate({ _id: req.params.authorId }, upd, { new: true }, (err, author) => {
-                if (err) {
-                    return next(err);
-                }
-                res.redirect('../list');
+            User.updateOne(req.params.userId, upd).then(user => {
+                return res.redirect('../list');
+            }).catch(err => {
+                return next(err);
             });
       });
 
-
+router.route('/delete/:userId')
+      .post((req, res, next) => {
+            User.delete(req.params.userId).then(() => {
+               return res.redirect('../list');
+            }).catch(err => {
+               return next(err);
+            });
+      });
+	  
 module.exports = router;
-

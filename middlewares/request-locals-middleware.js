@@ -4,18 +4,19 @@ let User = require('../models/user')
 
 module.exports = () => {
 	return (req, res, next) => {
-		res.locals.markdown = markdown;
 	    if (req.user) {
 	        res.locals.isAuthenticated = true;
-			if(!req.session.user) {
+			if(!req.session.currentUser) {
 				User.getById(req.user).then(user => {
-					req.session.user = user;
+					req.session.currentUser = user;
+					res.locals.currentUser = user;
 					return next();	
 				}).catch(err => {
 					console.log(err);
 					return next(err);	
 				});
 			}
+			return next();
 	    } else {
 			return next();
 		}

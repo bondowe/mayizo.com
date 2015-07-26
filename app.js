@@ -12,13 +12,13 @@ let sass = require('./middlewares/sass-middleware');
 let helmet = require("./middlewares/helmet-middleware")
 let passwordless = require('passwordless');
 let passwordlessHelper = require('./util/passwordless-helper');
+let appLocalsHelper = require('./util/appLocalsHelper');
 let requestHelpers = require('./middlewares/request-helpers-middleware');
 let requestLocals = require("./middlewares/request-locals-middleware")
 let errorHandlers = require("./middlewares/error-handlers-middleware")
 let requestLogger = require('morgan');
 let config = require('./config');
 let mongoose = require('mongoose');
-let markdown= require('./util/markdown');
 let csrf = require('csurf');
 let dateUtils = require('date-utils');
 let routes = require('./routes/index');
@@ -43,6 +43,9 @@ if (isProduction) {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+appLocalsHelper.init(app);
+passwordlessHelper.init(app);
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(compression());
@@ -61,8 +64,6 @@ app.use('/', routes);
 app.use('/account', account);
 app.use('/admin', passwordless.restricted({ failureRedirect: '/account/login', originField: 'returnUrl'}), admin);
 app.use(errorHandlers(isProduction));
-
-passwordlessHelper.init(app);
 
 module.exports = app;
 

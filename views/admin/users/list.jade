@@ -5,28 +5,32 @@ block content
     div(class='container')
         h1(class='page-heading') Utilisateurs
         hr
+        
         table(id='usersTable')
             thead
                 tr
-                    th Nom d'utilisateur
                     th Nom complet
-                    th Genre
-                    th Enregistré(e) le
+                    th Nom d'utilisateur
+                    th Email
+                    th Role
+                    th Utilisateur depuis
                     th
             tbody
                 each user in users
                     tr
-                        td= user.username
                         td= user.fullName
-                        td= user.gender
-                        td= user.signUpDate.toFormat('DD MM YYYY HH24:MI:SS')
+                        td= user.username
+                        td= user.email
+                        td= getRoleName(user.roleId)
+                        td= user.signUpDate.toFormat('DD MM YYYY HH24:MI')
                         td
-                            a(class='btn' href='/admin/users/edit/#{ user.id }') Afficher
+                            a(class='btn' href='/admin/users/edit/#{ user.id }') Détails
             tfoot
 
-        a(class='btn btn-default' href='/admin/users/add-as-author')
+        hr
+        a(class='btn btn-default' href='/admin/pendingUsers/add')
             span(class='glyphicon glyphicon-plus')
-            span Ajouter comme auteur
+            span Ajouter
 
 block append moreStylesheets
     link(href='/vendor/jquery-ui/themes/smoothness/jquery-ui.min.css', rel='stylesheet')
@@ -35,5 +39,3 @@ block append moreStylesheets
 block append moreScripts
     script(src='/vendor/datatables/media/js/jquery.dataTables.min.js')
     script(src='/javascripts/users-module.js')
-
-

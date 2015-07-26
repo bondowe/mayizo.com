@@ -1,14 +1,11 @@
 extends ../../layout
 
-mixin roleName (roleId, roles)
-    - var role = roles.find(x => x.id == roleId);
-    = (role ? role.name : roleId)  
-
 block content
 
     div(class='container')
         h1(class='page-heading') Utilisateurs en attente
         hr
+        
         table(id='usersTable')
             thead
                 tr
@@ -20,12 +17,13 @@ block content
                 each pendingUser in pendingUsers
                     tr
                         td= pendingUser.email
-                        td: +roleName(pendingUser.roleId, roles)
+                        td= getRoleName(pendingUser.roleId)
                         td= pendingUser.createdDate.toFormat('DD MM YYYY HH24:MI')
                         td
                             a(class='btn' href='/admin/pendingUsers/edit/#{ pendingUser.id }') Détails
             tfoot
 
+        hr
         a(class='btn btn-default' href='/admin/pendingUsers/add')
             span(class='glyphicon glyphicon-plus')
             span Ajouter

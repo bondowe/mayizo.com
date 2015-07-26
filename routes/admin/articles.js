@@ -31,7 +31,7 @@ router.route('/add')
                 smallImage: '',
                 largeImage: '',
                 video: '',
-                authorsOverride: req.session.user.username
+                authorsOverride: req.session.currentUser.username
             };
            res.render(res.view(), {article: art, csrfToken: req.csrfToken(), pageTitle: 'Nouvel article' });
       })
@@ -45,7 +45,7 @@ router.route('/add')
                 smallImage: art.smallImage,
                 largeImage: art.largeImage,
                 video: art.video,
-                authors: [req.session.user._id],
+                authors: [req.session.currentUser.id],
                 authorsOverride: art.authorsOverride
             });
             article.save((err, article) => {
@@ -67,7 +67,7 @@ router.route('/edit/:articleId')
                                       && article.authorsOverride != null
                                       && article.authorsOverride.trim().length > 0)
                                    ? article.authorsOverride
-                                   : req.session.user.username;
+                                   : req.session.currentUser.username;
                 article.authorsOverride = articleAuthors;
                 res.render(res.view('..'), { 
                     article: article, 
@@ -89,7 +89,7 @@ router.route('/edit/:articleId')
                 live: art.live,
                 commentsAllowed: art.commentsAllowed,
                 lastEditedDate: new Date(),
-                lastEditors: [req.session.user._id]
+                lastEditors: [req.session.currentUser.id]
             };
             Article.findOneAndUpdate({ _id: req.params.articleId }, upd, { new: true }, (err, article) => {
                 if (err) {
